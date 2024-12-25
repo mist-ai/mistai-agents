@@ -1,0 +1,7 @@
+[project]
+dependencies = [
+  "python-dotenv",
+  "letta",
+]
+name = "mistai-agents"
+version = "0.1.0"
