@@ -1,7 +1,7 @@
 from letta import LocalClient, RESTClient, ChatMemory
 from config import EMBEDDING_CONFIG, LLM_CONFIG
 from utils import logger
-from constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
+from ips_agent.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 
 
 class IPSAgent:
@@ -24,4 +24,16 @@ class IPSAgent:
                 ),
             )
 
-        logger.info(f"Created {self.name} with ID: {new_agent.id}")
+            logger.info(f"Created {self.name} with ID: {new_agent.id}")
+
+        else:
+            logger.info(f" {self.name} already exists.")
+
+    def delete(self):
+        agentId = self.client.get_agent_id(self.name)
+
+        if agentId:
+            self.client.delete_agent(agentId)
+            logger.info(f"Deleted {self.name} with ID: {agentId}")
+        else:
+            logger.info(f"Agent {self.name} not found")
