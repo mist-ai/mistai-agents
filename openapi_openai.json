@@ -4148,7 +4148,7 @@
             "type": "string",
             "title": "Name",
             "description": "The name of the organization.",
-            "default": "YieldingLeopard"
+            "default": "VersatileAcorn"
           },
           "created_at": {
             "anyOf": [
