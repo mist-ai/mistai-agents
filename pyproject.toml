@@ -1,5 +1,7 @@
 [project]
 dependencies = [
+  "gnews>=0.3.9",
+  "googlenewsdecoder>=0.1.6",
   "letta>=0.6.6",
   "matplotlib>=3.10.0",
   "numpy>=1.26.4",
@@ -7,6 +9,11 @@ dependencies = [
   "pyportfolioopt>=1.5.6",
   "python-dotenv",
   "yfinance>=0.2.51",
+  "lxml[html-clean]>=5.3.0",
+  "newspaper4k>=0.9.3.1",
+  "psycopg2-binary>=2.9.10",
+  "python-dotenv",
+  "scikit-learn>=1.6.0",
 ]
 name = "mistai-agents"
 version = "0.1.0"

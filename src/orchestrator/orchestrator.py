@@ -22,12 +22,12 @@ class Orchestrator:
             """
 
             from letta import create_client
-            from ips_agent.constants import NAME as IPS_NAME
+            #from ips_agent.constants import NAME as IPS_NAME
 
             lClient = create_client()
 
             response = lClient.send_message(
-                message=prompt, agent_name=IPS_NAME, role="user"
+                message=prompt, agent_name="ips-agent", role="user"
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
