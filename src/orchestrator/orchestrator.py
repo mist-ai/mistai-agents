@@ -3,6 +3,7 @@ from orchestrator.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 from utils import logger
 from config import EMBEDDING_CONFIG, LLM_CONFIG
 import sys
+import os
 
 class Orchestrator:
     def __init__(self, client: LocalClient | RESTClient):
@@ -20,8 +21,7 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
-
-            sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
+            sys.path.append(os.environ["SYS_PATH"])
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
 
@@ -45,7 +45,7 @@ class Orchestrator:
             Returns:
                 response (str): analysis agent response
             """
-            sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
+            sys.path.append(os.environ["SYS_PATH"])
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
 
