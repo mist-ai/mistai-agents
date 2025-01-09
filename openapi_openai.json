@@ -4148,7 +4148,7 @@
             "type": "string",
             "title": "Name",
             "description": "The name of the organization.",
-            "default": "DedicatedSnail"
+            "default": "PatientHippopotamus"
           },
           "created_at": {
             "anyOf": [

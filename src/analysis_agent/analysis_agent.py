@@ -49,7 +49,7 @@ class AnalysisAgent:
                 response (str): allocated portfolio details
             """
 
-            sys.path.append(os.environ["SYS_PATH"])
+            sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
             from analysis_agent.portfolio import PortfolioTools
 
             return PortfolioTools(config).bl_allocation()

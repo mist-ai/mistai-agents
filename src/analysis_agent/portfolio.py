@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
+
 import json
 import numpy as np
 import pandas as pd
@@ -7,7 +10,7 @@ from pypfopt import black_litterman, risk_models
 from pypfopt import BlackLittermanModel, plotting
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
-from base import BLConfig, json_string
+from analysis_agent.base import BLConfig, json_string
 
 
 class PortfolioTools:
@@ -34,10 +37,10 @@ class PortfolioTools:
         S = risk_models.CovarianceShrinkage(prices).ledoit_wolf()
         delta = black_litterman.market_implied_risk_aversion(market_prices)
         delta
-        plotting.plot_covariance(S, plot_correlation=True)
+        # plotting.plot_covariance(S, plot_correlation=True)
         market_prior = black_litterman.market_implied_prior_returns(mcaps, delta, S)
         market_prior
-        market_prior.plot.barh(figsize=(10, 5))
+        # market_prior.plot.barh(figsize=(10, 5))
 
         bl = BlackLittermanModel(
             S, pi=market_prior, absolute_views=self.bl_config.viewdict
@@ -49,16 +52,16 @@ class PortfolioTools:
             omega="idzorek",
             view_confidences=self.bl_config.confidences,
         )
-        fig, ax = plt.subplots(figsize=(7, 7))
-        ax.imshow(bl.omega)
+        # fig, ax = plt.subplots(figsize=(7, 7))
+        # ax.imshow(bl.omega)
 
         # We want to show all ticks...
-        ax.set_xticks(np.arange(len(bl.tickers)))
-        ax.set_yticks(np.arange(len(bl.tickers)))
+        # ax.set_xticks(np.arange(len(bl.tickers)))
+        # ax.set_yticks(np.arange(len(bl.tickers)))
 
-        ax.set_xticklabels(bl.tickers)
-        ax.set_yticklabels(bl.tickers)
-        plt.show()
+        # ax.set_xticklabels(bl.tickers)
+        # ax.set_yticklabels(bl.tickers)
+        # plt.show()
 
         np.diag(bl.omega)
 
@@ -90,11 +93,11 @@ class PortfolioTools:
         ).T
         rets_df
 
-        rets_df.plot.bar(figsize=(12, 8))
-        plt.show()
+        # rets_df.plot.bar(figsize=(12, 8))
+        # plt.show()
 
         S_bl = bl.bl_cov()
-        plotting.plot_covariance(S_bl)
+        # plotting.plot_covariance(S_bl)
 
         ef = EfficientFrontier(ret_bl, S_bl)
         ef.add_objective(objective_functions.L2_reg)
@@ -102,8 +105,12 @@ class PortfolioTools:
         weights = ef.clean_weights()
         weights
 
-        pd.Series(weights).plot.pie(figsize=(10, 10))
+        # pd.Series(weights).plot.pie(figsize=(10, 10))
 
         da = DiscreteAllocation(weights, prices.iloc[-1], total_portfolio_value=20000)
         alloc, leftover = da.lp_portfolio()
         return json.dumps({"allocation": alloc, "leftover": leftover})
+
+
+p = PortfolioTools(json_string)
+print(p.bl_allocation())
