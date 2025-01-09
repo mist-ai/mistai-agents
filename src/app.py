@@ -1,7 +1,9 @@
+from dotenv import load_dotenv
 from letta import create_client
 from ips_agent.ips_agent import IPSAgent
 from orchestrator.orchestrator import Orchestrator
 
+load_dotenv("./../.env")
 
 def main():
     client = create_client()
