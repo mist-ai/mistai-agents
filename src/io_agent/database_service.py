@@ -1,6 +1,4 @@
 import psycopg2
-from psycopg2 import sql
-import csv
 import pandas as pd
 from sqlalchemy import create_engine
 import os
@@ -33,7 +31,7 @@ class DatabaseService:
             )
             self.cursor = self.connection.cursor()
             print("Connected to the database successfully.")
-        except Exception as e:
+        except Exception:
             print("Error connecting to the database. Check your credentials.")
 
     
