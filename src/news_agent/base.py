@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import json
 
 
 class NewsFetcher(ABC):
@@ -23,3 +24,30 @@ class Analyzer(ABC):
             A list of enriched articles with additional metadata (e.g., sentiment).
         """
         pass
+
+class News:
+    """
+    Represents a news article.
+
+    Attributes:
+        title (str): The title of the news article.
+        description (str): A brief description of the news article.
+        url (str): The URL to the full news article.
+        date (str): The publication date of the news article.
+        content (str): The content of the news article.
+    """
+    def __init__(self, title: str, description: str, url: str, date: str, content: str = None):
+        self.title = title
+        self.description = description
+        self.url = url
+        self.date = date
+        self.content = content
+    
+    def get_json(self):
+        """
+        Converts the News object to a JSON format.
+
+        Returns:
+            str: A JSON string representing the News object.
+        """
+        return json.dumps(self.data)

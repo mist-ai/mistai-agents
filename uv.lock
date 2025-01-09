@@ -1359,6 +1359,18 @@ wheels = [
 ]
 
 [[package]]
+name = "miniflux"
+version = "1.1.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d7/c1/2341da364178bd2006c1fb2677a94d35e4d50aa7291e339dce941610979d/miniflux-1.1.2.tar.gz", hash = "sha256:b3c057da15cc02afcbf788ec152bd19e778ee463caf5c78d36e65463aca13aa7", size = 10352 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7f/3e/cb63590eeedb960db1e859d953cf830d709eb1eea3f148eca1a64358680c/miniflux-1.1.2-py3-none-any.whl", hash = "sha256:e6a07515b99f211151b247723f78930f090712d59ee3bcbfe1c5bf99c6136a38", size = 7879 },
+]
+
+[[package]]
 name = "mistai-agents"
 version = "0.1.0"
 source = { virtual = "." }
@@ -1367,9 +1379,11 @@ dependencies = [
     { name = "googlenewsdecoder" },
     { name = "letta" },
     { name = "lxml", extra = ["html-clean"] },
+    { name = "miniflux" },
     { name = "newspaper4k" },
     { name = "psycopg2-binary" },
     { name = "python-dotenv" },
+    { name = "sqlalchemy" },
 ]
 
 [package.metadata]
@@ -1378,9 +1392,11 @@ requires-dist = [
     { name = "googlenewsdecoder", specifier = ">=0.1.6" },
     { name = "letta", specifier = ">=0.6.6" },
     { name = "lxml", extras = ["html-clean"], specifier = ">=5.3.0" },
+    { name = "miniflux", specifier = ">=1.1.2" },
     { name = "newspaper4k", specifier = ">=0.9.3.1" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "python-dotenv" },
+    { name = "sqlalchemy", specifier = ">=2.0.36" },
 ]
 
 [[package]]
