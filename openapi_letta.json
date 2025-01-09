@@ -8852,7 +8852,7 @@
             "type": "string",
             "title": "Name",
             "description": "The name of the organization.",
-            "default": "IntelligentSpinach"
+            "default": "ZestyVampire"
           },
           "created_at": {
             "anyOf": [

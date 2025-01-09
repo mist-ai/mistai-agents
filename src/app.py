@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from letta import create_client
 from ips_agent.ips_agent import IPSAgent
 from orchestrator.orchestrator import Orchestrator
-from io_agent.database_service import db
+# from io_agent.database_service import db
 from news_agent.news_agent import NewsAgent
 
 load_dotenv("./../.env")

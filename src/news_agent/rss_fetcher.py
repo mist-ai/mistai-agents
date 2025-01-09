@@ -2,8 +2,6 @@ import sys
 sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
 import miniflux
 from news_agent.base import NewsFetcher, News
-from newspaper import Article
-from datetime import datetime
 import os 
 import json
 
@@ -34,8 +32,11 @@ class RSSFetcher(NewsFetcher):
             description="No Description"
 
             news_article = News(title=title, url=url, date=date, content=content, description=description)
+            news_article = news_article.to_dict()
+
             rss_entries.append(news_article)
-        return json.dumps(rss_entries)
+
+        return rss_entries
 
 rss_fetcher = RSSFetcher()
-
+print(rss_fetcher.fetch('hnb'))

@@ -2,7 +2,7 @@ from letta import LocalClient, RESTClient, ChatMemory
 from orchestrator.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 from utils import logger
 from config import EMBEDDING_CONFIG, LLM_CONFIG
-
+import sys
 
 class Orchestrator:
     def __init__(self, client: LocalClient | RESTClient):
@@ -20,14 +20,14 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
-
+            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
             from letta import create_client
-            #from ips_agent.constants import NAME as IPS_NAME
+            from ips_agent.constants import NAME as IPS_NAME
 
             lClient = create_client()
 
             response = lClient.send_message(
-                message=prompt, agent_name="ips-agent", role="user"
+                message=prompt, agent_name=IPS_NAME, role="user"
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments

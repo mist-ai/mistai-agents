@@ -1,6 +1,7 @@
+import sys
+sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
 from abc import ABC, abstractmethod
 import json
-
 
 class NewsFetcher(ABC):
     @abstractmethod
@@ -17,6 +18,7 @@ class Analyzer(ABC):
     @abstractmethod
     def analyze(self, articles: list) -> list:
         """
+
         Analyze the given list of articles and enrich them with metadata.
         Args:
             articles: A list of articles (each as a dictionary).
@@ -42,12 +44,13 @@ class News:
         self.url = url
         self.date = date
         self.content = content
-    
-    def get_json(self):
-        """
-        Converts the News object to a JSON format.
 
-        Returns:
-            str: A JSON string representing the News object.
-        """
-        return json.dumps(self.data)
+    def to_dict(self):
+        """Convert the object to a dictionary."""
+        return {
+            "title": self.title,
+            "description": self.description,
+            "date": self.date,
+            "content": self.content
+        }
+    
