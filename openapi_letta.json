@@ -8852,7 +8852,7 @@
             "type": "string",
             "title": "Name",
             "description": "The name of the organization.",
-            "default": "ExquisiteYogurt"
+            "default": "DedicatedSnail"
           },
           "created_at": {
             "anyOf": [
