@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ class PortfolioTools:
 
     def bl_allocation(self):
         if len(self.bl_config.tickers) == 0:
-            return None, None
+            return json.dumps({})
 
         ohlc = yf.download(self.bl_config.tickers, period="max")
         prices = ohlc["Close"]
@@ -105,7 +106,4 @@ class PortfolioTools:
 
         da = DiscreteAllocation(weights, prices.iloc[-1], total_portfolio_value=20000)
         alloc, leftover = da.lp_portfolio()
-        return alloc, leftover
-
-
-portfolio_tools = PortfolioTools(json_string)
+        return json.dumps({"allocation": alloc, "leftover": leftover})
