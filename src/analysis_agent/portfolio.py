@@ -4,10 +4,9 @@ sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
 import json
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import yfinance as yf
 from pypfopt import black_litterman, risk_models
-from pypfopt import BlackLittermanModel, plotting
+from pypfopt import BlackLittermanModel
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
 from analysis_agent.base import BLConfig, json_string
