@@ -1,4 +1,3 @@
-import os
 import sys
 
 from letta import LocalClient, RESTClient, ChatMemory
