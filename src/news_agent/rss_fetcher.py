@@ -1,8 +1,8 @@
 import sys
+import os 
 sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
 import miniflux
 from news_agent.base import NewsFetcher, News
-import os 
 import json
 
 class RSSFetcher(NewsFetcher):

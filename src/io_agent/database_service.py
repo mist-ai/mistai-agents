@@ -124,10 +124,4 @@ class DatabaseService:
 db = DatabaseService(os.environ['DB_URL'], os.environ['DB_PORT'], os.environ['DB_NAME'], os.environ['DB_USERNAME'], os.environ['DB_PASSWORD'])
 db.connect()
 
-# historical_data_folder = "/Users/thilakna/Documents/GitHub/mistai-io-agent/src/data"
-# historical_files = os.listdir(historical_data_folder)
-
-# for file_name in historical_files:
-#     absolute_file_path = os.path.join(historical_data_folder, file_name)
-#     a.import_csv_to_table(absolute_file_path,'stock_data')
 

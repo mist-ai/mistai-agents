@@ -48,7 +48,7 @@ class AnalysisAgent:
                 response (str): allocated portfolio details
             """
             import os
-            sys.path.append(os.environ["SYS_PATH"])
+            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
             from analysis_agent.portfolio import PortfolioTools
 
             return PortfolioTools(config).bl_allocation()

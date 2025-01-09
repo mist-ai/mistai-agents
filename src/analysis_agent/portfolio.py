@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.environ["SYS_PATH"])
+sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
 
 import json
 import numpy as np
