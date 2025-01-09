@@ -1,6 +1,6 @@
 import sys
-
-sys.path.append("/Users/admin/Documents/Personal/fyp/mistai-agents/src")
+import os
+sys.path.append(os.environ["SYS_PATH"])
 
 import json
 import numpy as np
