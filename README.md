@@ -51,6 +51,9 @@ IPS agent manages the user's Investor Policy Statement. It stores and retrieves 
    uv pip install -r pyproject.toml
    ```
 
+4. Setup .env file
+
+* `Create a .env file in the root directory and the env variables will be loaded`. Example .env file can be found in `.env-example` file
 ## Usage
 
 1. Set up environment variables by copying `.env.example` to [.env](http://_vscodecontentref_/6) and updating the values as needed.
