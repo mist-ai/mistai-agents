@@ -21,9 +21,7 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
-            import os
-            import sys
-            sys.path.append(os.environ["SYS_PATH"])
+            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
 
@@ -47,9 +45,7 @@ class Orchestrator:
             Returns:
                 response (str): analysis agent response
             """
-            import os
-            import sys
-            sys.path.append(os.environ["SYS_PATH"])
+            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
 
@@ -60,6 +56,31 @@ class Orchestrator:
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
+        
+        def call_news_agent(prompt: str) -> str:
+            """
+            Call the News agent to fetch news for a keyword.
+            you can call news_agent in a case of below:
+                - fetch news form rss feed for a specific keyword
+
+            Args:
+                prompt (str): prompt that should be passed for the news agent
+
+            Returns:
+                response (str): news agent response
+            """
+            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+            from letta import create_client
+            from news_agent.constants import NAME as IPS_NAME
+
+            lClient = create_client()
+
+            response = lClient.send_message(
+                message=prompt, agent_name=IPS_NAME, role="user"
+            )
+
+            return response.messages[len(response.messages) - 2].tool_call.arguments
+
 
         call_ips_tool = self.client.create_tool(call_ips)
         call_analysis_agent_tool = self.client.create_tool(call_analysis_agent)
