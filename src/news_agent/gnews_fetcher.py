@@ -1,9 +1,10 @@
-from .base import NewsFetcher
+from .base import NewsFetcher, News
 from gnews import GNews
 from googlenewsdecoder import new_decoderv1
 from newspaper import Article
 import time
 import random
+from utils import logger
 
 class GNewsFetcher(NewsFetcher):
     def __init__(self):
@@ -17,33 +18,27 @@ class GNewsFetcher(NewsFetcher):
             keyword (str): The keyword to search for in news articles.
 
         Returns:
-            List[Dict[str, str]]: 
-                A list of dictionaries where each dictionary represents a news article with the following keys:
-                    - "title" (str): The title of the news article.
-                    - "description" (str): A brief description of the news article.
-                    - "url" (str): The URL to the full news article.
-                    - "date" (str): The publication date of the news article.
-                    - "content" (str): The content of the news article
-
+            List[News]: A list of `News` objects representing the fetched news articles.
         """
+        news_articles = []
         results = self.gnews.get_news(keyword)
-        print(results)
         for i in range(len(results)):
-
             url = (results[i]['url'])
             redirected_url = new_decoderv1(url,2)
             article = Article(redirected_url["decoded_url"])
-
             time.sleep(random.uniform(1, 2)) 
-
             article.download()
             article.parse()
             results[i]['content'] = article.text
-            
 
-        # return results
+            news = News(
+                title=results[i].get("title", "No Title"),
+                description=results[i].get("description", "No Description"),
+                url=results[i].get("url", "No URL"),
+                date=results[i].get("published date", "No Date"),
+                content=article.text
+                )
+            news_articles.append(news)
+        return news_articles
     
-
-
-a = GNewsFetcher()
-a.fetch('sri lanka')
+gnews_fetcher = GNewsFetcher()

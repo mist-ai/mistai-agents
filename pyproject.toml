@@ -10,11 +10,13 @@ dependencies = [
   "python-dotenv",
   "yfinance>=0.2.51",
   "lxml[html-clean]>=5.3.0",
+  "miniflux>=1.1.2",
   "newspaper4k>=0.9.3.1",
   "psycopg2-binary>=2.9.10",
   "python-dotenv",
+  "sqlalchemy>=2.0.36",
   "scikit-learn>=1.6.0",
   "ruff>=0.8.6",
-]
+  ]
 name = "mistai-agents"
 version = "0.1.0"

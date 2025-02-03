@@ -63,13 +63,14 @@ class Orchestrator:
 
         call_ips_tool = self.client.create_tool(call_ips)
         call_analysis_agent_tool = self.client.create_tool(call_analysis_agent)
+        call_news_agent_tool = self.client.create_tool(call_news_agent)
 
         new_agent = self.client.create_agent(
             name=NAME,
             embedding_config=EMBEDDING_CONFIG,
             llm_config=LLM_CONFIG,
             memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
-            tool_ids=[call_ips_tool.id, call_analysis_agent_tool.id],
+            tool_ids=[call_ips_tool.id, call_analysis_agent_tool.id, call_news_agent_tool.id],
         )
 
         logger.info(f"{NAME} agent created with ID: {new_agent.id}")
