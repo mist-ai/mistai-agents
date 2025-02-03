@@ -47,6 +47,7 @@ class AnalysisAgent:
             Returns:
                 response (str): allocated portfolio details
             """
+            import sys
             import os
             sys.path.append(os.environ["SYS_PATH"])
             from analysis_agent.portfolio import PortfolioTools

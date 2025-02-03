@@ -21,6 +21,8 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
+            import os
+            import sys
             sys.path.append(os.environ["SYS_PATH"])
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
@@ -45,6 +47,8 @@ class Orchestrator:
             Returns:
                 response (str): analysis agent response
             """
+            import os
+            import sys
             sys.path.append(os.environ["SYS_PATH"])
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
