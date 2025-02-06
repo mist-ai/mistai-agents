@@ -49,5 +49,5 @@ class RSSFetcher(NewsFetcher):
         return rss_entries
 
 
-rss_fetcher = RSSFetcher()
-print(rss_fetcher.fetch("hnb"))
+# rss_fetcher = RSSFetcher()
+# print(rss_fetcher.fetch("hnb"))
