@@ -31,7 +31,7 @@ class Orchestrator:
 
             agentId = list(
                 filter(lambda agent: agent["name"] == IPS_NAME, client.agents.list())
-            )
+            )[0]
             print(f"agent IDD: {agentId}")
             response = client.agents.messages.create(
                 agent_id=agentId,
