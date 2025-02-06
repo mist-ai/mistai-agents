@@ -28,8 +28,22 @@ class NewsAgent:
             from news_agent.rss_fetcher import rss_fetcher
 
             return rss_fetcher.fetch(keyword)
+        
+        def call_gnews_fetcher(keyword: str) -> str:
+            """
+            This tool fetches news through GNews API
+            Args:
+                keyword (str): keyword for a news
+            Returns:
+                JSON response
+            """
+
+            from news_agent.gnews_fetcher import gnews_fetcher
+
+            return gnews_fetcher.fetch(keyword)
 
         rss_fetcher_tool = self.client.create_tool(call_rss_fetcher)
+        gnews_fetcher_tool = self.client.create_tool(call_gnews_fetcher)
 
         new_agent = self.client.create_agent(
             name=NAME,
