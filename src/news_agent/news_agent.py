@@ -22,6 +22,8 @@ class NewsAgent:
                 response (str): rss fetcher news objects list
             """
 
+            import sys
+            import os
             sys.path(os.environ["SYS_PATH"])
             from news_agent.rss_fetcher import rss_fetcher
 

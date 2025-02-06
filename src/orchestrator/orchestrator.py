@@ -23,6 +23,7 @@ class Orchestrator:
             """
             import sys
             import os
+
             sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
@@ -47,6 +48,9 @@ class Orchestrator:
             Returns:
                 response (str): analysis agent response
             """
+            import sys
+            import os
+
             sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
@@ -71,6 +75,9 @@ class Orchestrator:
             Returns:
                 response (str): news agent response
             """
+            import sys
+            import os
+
             sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from news_agent.constants import NAME as IPS_NAME
@@ -83,13 +90,9 @@ class Orchestrator:
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
 
-        call_ips_tool = self.client.create_tool(call_ips, name="call_ips")
-        call_analysis_agent_tool = self.client.create_tool(
-            call_analysis_agent, name="call_analysis_agent_tool"
-        )
-        call_news_agent_tool = self.client.create_tool(
-            call_news_agent, name="call_news_agent"
-        )
+        call_ips_tool = self.client.create_tool(call_ips)
+        call_analysis_agent_tool = self.client.create_tool(call_analysis_agent)
+        call_news_agent_tool = self.client.create_tool(call_news_agent)
 
         new_agent = self.client.create_agent(
             name=NAME,

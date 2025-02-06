@@ -48,6 +48,8 @@ class AnalysisAgent:
             import sys
             import os
 
+            import sys
+            import os
             sys.path(os.environ["SYS_PATH"])
             from analysis_agent.portfolio import PortfolioTools
 
