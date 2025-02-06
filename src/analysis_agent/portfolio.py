@@ -1,7 +1,3 @@
-import sys
-import os
-sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
-
 import json
 import numpy as np
 import pandas as pd

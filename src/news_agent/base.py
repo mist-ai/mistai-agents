@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
 from abc import ABC, abstractmethod
-import json
 
 class NewsFetcher(ABC):
     @abstractmethod
@@ -28,6 +24,7 @@ class Analyzer(ABC):
         """
         pass
 
+
 class News:
     """
     Represents a news article.
@@ -39,7 +36,10 @@ class News:
         date (str): The publication date of the news article.
         content (str): The content of the news article.
     """
-    def __init__(self, title: str, description: str, url: str, date: str, content: str = None):
+
+    def __init__(
+        self, title: str, description: str, url: str, date: str, content: str = None
+    ):
         self.title = title
         self.description = description
         self.url = url
@@ -52,6 +52,5 @@ class News:
             "title": self.title,
             "description": self.description,
             "date": self.date,
-            "content": self.content
+            "content": self.content,
         }
-    

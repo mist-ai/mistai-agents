@@ -5,12 +5,12 @@ from config import EMBEDDING_CONFIG, LLM_CONFIG
 import sys
 import os
 
+
 class Orchestrator:
     def __init__(self, client: LocalClient | RESTClient):
         self.client = client
 
     def create(self):
-
         def call_ips(prompt: str) -> str:
             """
             Call the IPS agent to generate a response to the user input.
@@ -21,7 +21,9 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
-            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+            import sys
+            import os
+            sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
 
@@ -45,7 +47,7 @@ class Orchestrator:
             Returns:
                 response (str): analysis agent response
             """
-            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+            sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
 
@@ -56,7 +58,7 @@ class Orchestrator:
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
-        
+
         def call_news_agent(prompt: str) -> str:
             """
             Call the News agent to fetch news for a keyword.
@@ -69,7 +71,7 @@ class Orchestrator:
             Returns:
                 response (str): news agent response
             """
-            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+            sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from news_agent.constants import NAME as IPS_NAME
 
@@ -81,17 +83,24 @@ class Orchestrator:
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
 
-
-        call_ips_tool = self.client.create_tool(call_ips)
-        call_analysis_agent_tool = self.client.create_tool(call_analysis_agent)
-        call_news_agent_tool = self.client.create_tool(call_news_agent)
+        call_ips_tool = self.client.create_tool(call_ips, name="call_ips")
+        call_analysis_agent_tool = self.client.create_tool(
+            call_analysis_agent, name="call_analysis_agent_tool"
+        )
+        call_news_agent_tool = self.client.create_tool(
+            call_news_agent, name="call_news_agent"
+        )
 
         new_agent = self.client.create_agent(
             name=NAME,
             embedding_config=EMBEDDING_CONFIG,
             llm_config=LLM_CONFIG,
             memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
-            tool_ids=[call_ips_tool.id, call_analysis_agent_tool.id, call_news_agent_tool.id],
+            tool_ids=[
+                call_ips_tool.id,
+                call_analysis_agent_tool.id,
+                call_news_agent_tool.id,
+            ],
         )
 
         logger.info(f"{NAME} agent created with ID: {new_agent.id}")

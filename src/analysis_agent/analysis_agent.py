@@ -1,5 +1,3 @@
-import sys
-
 from letta import LocalClient, RESTClient, ChatMemory
 from analysis_agent.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 from utils import logger
@@ -49,7 +47,8 @@ class AnalysisAgent:
             """
             import sys
             import os
-            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+
+            sys.path(os.environ["SYS_PATH"])
             from analysis_agent.portfolio import PortfolioTools
 
             return PortfolioTools(config).bl_allocation()

@@ -11,7 +11,6 @@ class NewsAgent:
         self.client = client
 
     def create(self):
-
         def call_rss_fetcher(keyword: str) -> str:
             """
             This tool fetch news through an RSS feed for a given keyword
@@ -23,10 +22,11 @@ class NewsAgent:
                 response (str): rss fetcher news objects list
             """
 
-            sys.path.append("/Users/thilakna/Documents/GitHub/mistai-agents/src")
+            sys.path(os.environ["SYS_PATH"])
             from news_agent.rss_fetcher import rss_fetcher
+
             return rss_fetcher.fetch(keyword)
-        
+
         rss_fetcher_tool = self.client.create_tool(call_rss_fetcher)
 
         new_agent = self.client.create_agent(

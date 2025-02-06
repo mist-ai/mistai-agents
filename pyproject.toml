@@ -2,7 +2,7 @@
 dependencies = [
   "gnews>=0.3.9",
   "googlenewsdecoder>=0.1.6",
-  "letta>=0.6.6",
+  "letta==0.6.15",
   "matplotlib>=3.10.0",
   "numpy>=1.26.4",
   "pandas>=2.2.3",
