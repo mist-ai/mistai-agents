@@ -1,13 +1,12 @@
-from letta import LocalClient, RESTClient, ChatMemory
+from letta_client import Letta, CreateBlock
 from orchestrator.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 from utils import logger
-from config import EMBEDDING_CONFIG, LLM_CONFIG
 import sys
 import os
 
 
 class Orchestrator:
-    def __init__(self, client: LocalClient | RESTClient):
+    def __init__(self, client: Letta):
         self.client = client
 
     def create(self):
@@ -25,23 +24,26 @@ class Orchestrator:
             import os
 
             sys.path(os.environ["SYS_PATH"])
-            from letta import create_client
+            from letta_client import Letta, MessageCreate
             from ips_agent.constants import NAME as IPS_NAME
-            from letta.schemas.llm_config import LLMConfig
-            from letta.schemas.embedding_config import EmbeddingConfig
 
-            lClient = create_client()
+            client = Letta(base_url="http://localhost:8283")
 
-            lClient.set_default_llm_config(LLMConfig.default_config("gpt-4o-mini"))
-            lClient.set_default_embedding_config(
-                EmbeddingConfig.default_config(provider="openai")
+            agentId = list(
+                filter(lambda agent: agent["name"] == IPS_NAME, client.agents.list())
+            )
+            print(f"agent IDD: {agentId}")
+            response = client.agents.messages.create(
+                agent_id=agentId,
+                messages=[
+                    MessageCreate(
+                        role="user",
+                        content=prompt,
+                    )
+                ],
             )
 
-            response = lClient.send_message(
-                message=prompt, agent_name=IPS_NAME, role="user"
-            )
-
-            return response.messages[len(response.messages) - 2].tool_call.arguments
+            return response["messages"]
 
         def call_analysis_agent(prompt: str) -> str:
             """
@@ -111,22 +113,30 @@ class Orchestrator:
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
-        call_ips_tool = self.client.tools.upsert_from_function(func=call_ips)
-        call_analysis_agent_tool = self.client.tools.upsert_from_function(
-            func=call_analysis_agent
-        )
-        call_news_agent_tool = self.client.tools.upsert_from_function(
-            func=call_news_agent
-        )
 
-        new_agent = self.client.create_agent(
+        call_ips_tool = self.client.tools.create_from_function(func=call_ips)
+        # call_analysis_agent_tool = self.client.tools.create_from_function(
+        #     func=call_analysis_agent
+        # )
+        # call_news_agent_tool = self.client.tools.create_from_function(
+        #     func=call_news_agent
+        # )
+
+        new_agent = self.client.agents.create(
             name=NAME,
-            memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
-            tool_ids=[
-                call_ips_tool.id,
-                call_analysis_agent_tool.id,
-                call_news_agent_tool.id
+            memory_blocks=[
+                CreateBlock(
+                    value=HUMAN_PROMPT,
+                    label="human",
+                ),
+                CreateBlock(
+                    value=PERSONA_PROMPT,
+                    label="persona",
+                ),
             ],
+            model="openai/gpt-4o-mini",
+            embedding="openai/text-embedding-ada-002",
+            tool_ids=[call_ips_tool.id],
         )
 
         logger.info(f"{NAME} agent created with ID: {new_agent.id}")

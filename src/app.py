@@ -16,8 +16,8 @@ def main():
     ips_agent = IPSAgent(client=client)
     ips_agent.create()
 
-    # orchestrator = Orchestrator(client=client)
-    # orchestrator.create()
+    orchestrator = Orchestrator(client=client)
+    orchestrator.create()
 
     # news_agent = NewsAgent(client=client)
     # news_agent.create()
