@@ -37,7 +37,9 @@ class NewsAgent:
             Returns:
                 JSON response
             """
-
+            import sys
+            import os
+            sys.path(os.environ["SYS_PATH"])
             from news_agent.gnews_fetcher import gnews_fetcher
 
             return gnews_fetcher.fetch(keyword)
