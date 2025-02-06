@@ -27,8 +27,15 @@ class Orchestrator:
             sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from ips_agent.constants import NAME as IPS_NAME
+            from letta.schemas.llm_config import LLMConfig
+            from letta.schemas.embedding_config import EmbeddingConfig
 
             lClient = create_client()
+
+            lClient.set_default_llm_config(LLMConfig.default_config("gpt-4o-mini"))
+            lClient.set_default_embedding_config(
+                EmbeddingConfig.default_config(provider="openai")
+            )
 
             response = lClient.send_message(
                 message=prompt, agent_name=IPS_NAME, role="user"
@@ -54,8 +61,15 @@ class Orchestrator:
             sys.path(os.environ["SYS_PATH"])
             from letta import create_client
             from analysis_agent.constants import NAME as IPS_NAME
+            from letta.schemas.llm_config import LLMConfig
+            from letta.schemas.embedding_config import EmbeddingConfig
 
             lClient = create_client()
+
+            lClient.set_default_llm_config(LLMConfig.default_config("gpt-4o-mini"))
+            lClient.set_default_embedding_config(
+                EmbeddingConfig.default_config(provider="openai")
+            )
 
             response = lClient.send_message(
                 message=prompt, agent_name=IPS_NAME, role="user"
@@ -82,27 +96,36 @@ class Orchestrator:
             from letta import create_client
             from news_agent.constants import NAME as IPS_NAME
 
+            from letta.schemas.llm_config import LLMConfig
+            from letta.schemas.embedding_config import EmbeddingConfig
+
             lClient = create_client()
+
+            lClient.set_default_llm_config(LLMConfig.default_config("gpt-4o-mini"))
+            lClient.set_default_embedding_config(
+                EmbeddingConfig.default_config(provider="openai")
+            )
 
             response = lClient.send_message(
                 message=prompt, agent_name=IPS_NAME, role="user"
             )
 
             return response.messages[len(response.messages) - 2].tool_call.arguments
-
-        call_ips_tool = self.client.create_tool(call_ips)
-        call_analysis_agent_tool = self.client.create_tool(call_analysis_agent)
-        call_news_agent_tool = self.client.create_tool(call_news_agent)
+        call_ips_tool = self.client.tools.upsert_from_function(func=call_ips)
+        call_analysis_agent_tool = self.client.tools.upsert_from_function(
+            func=call_analysis_agent
+        )
+        call_news_agent_tool = self.client.tools.upsert_from_function(
+            func=call_news_agent
+        )
 
         new_agent = self.client.create_agent(
             name=NAME,
-            embedding_config=EMBEDDING_CONFIG,
-            llm_config=LLM_CONFIG,
             memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
             tool_ids=[
                 call_ips_tool.id,
                 call_analysis_agent_tool.id,
-                call_news_agent_tool.id,
+                call_news_agent_tool.id
             ],
         )
 
