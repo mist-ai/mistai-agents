@@ -73,7 +73,8 @@ IPS agent manages the user's Investor Policy Statement. It stores and retrieves 
 4. Run the letta server:
 
    ```bash
-   letta server
+   export OPENAI_API_KEY=
+   letta server --ade --port=8283
    ```
 
 5. Access [`Letta ADE`](https://app.letta.com/development-servers/local/dashboard) from here to interact with the agents.
