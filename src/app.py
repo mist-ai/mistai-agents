@@ -4,8 +4,6 @@ from ips_agent.ips_agent import IPSAgent
 from orchestrator.orchestrator import Orchestrator
 from news_agent.news_agent import NewsAgent
 from analysis_agent.analysis_agent import AnalysisAgent
-from letta.schemas.llm_config import LLMConfig
-from letta.schemas.embedding_config import EmbeddingConfig
 
 load_dotenv("./../.env")
 
