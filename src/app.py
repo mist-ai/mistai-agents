@@ -16,8 +16,8 @@ def main():
     orchestrator = Orchestrator(client=client)
     orchestrator.create()
 
-    # news_agent = NewsAgent(client=client)
-    # news_agent.create()
+    news_agent = NewsAgent(client=client)
+    news_agent.create()
 
     analysis_agent = AnalysisAgent(client=client)
     analysis_agent.create()
