@@ -52,7 +52,6 @@ class NewsAgent:
             embedding_config=EMBEDDING_CONFIG,
             llm_config=LLM_CONFIG,
             memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
-            # tool_ids=[rss_fetcher_tool.id],
             tool_ids=[rss_fetcher_tool.id,gnews_fetcher_tool.id],
         )
 
