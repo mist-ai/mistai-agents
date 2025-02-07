@@ -20,30 +20,25 @@ class Orchestrator:
             Returns:
                 response (str): IPS agent response
             """
-            import sys
-            import os
-
-            sys.path(os.environ["SYS_PATH"])
             from letta_client import Letta, MessageCreate
-            from ips_agent.constants import NAME as IPS_NAME
 
             client = Letta(base_url="http://localhost:8283")
+            agent_id = list(filter(lambda agent: agent.name == "ips-agent", client.agents.list()))[
+                0
+            ].id
 
-            agentId = list(
-                filter(lambda agent: agent["name"] == IPS_NAME, client.agents.list())
-            )[0]
-            print(f"agent IDD: {agentId}")
+            print(agent_id)
+
             response = client.agents.messages.create(
-                agent_id=agentId,
+                agent_id=agent_id,
                 messages=[
                     MessageCreate(
                         role="user",
-                        content=prompt,
+                        content="can you say hi",
                     )
                 ],
             )
-
-            return response["messages"]
+            print(response.messages[len(response.messages) - 1].content)
 
         def call_analysis_agent(prompt: str) -> str:
             """
