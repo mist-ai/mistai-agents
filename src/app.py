@@ -9,10 +9,9 @@ from letta.schemas.embedding_config import EmbeddingConfig
 
 load_dotenv("./../.env")
 
+
 def main():
-    client = Letta(
-        base_url="http://localhost:8283"
-    )
+    client = Letta(base_url="http://localhost:8283")
     ips_agent = IPSAgent(client=client)
     ips_agent.create()
 
@@ -22,10 +21,9 @@ def main():
     # news_agent = NewsAgent(client=client)
     # news_agent.create()
 
-    # analysis_agent = AnalysisAgent(client=client)
-    # analysis_agent.create()
+    analysis_agent = AnalysisAgent(client=client)
+    analysis_agent.create()
 
 
 if __name__ == "__main__":
-
     main()

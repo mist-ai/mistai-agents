@@ -1,11 +1,10 @@
-from letta import LocalClient, RESTClient, ChatMemory
+from letta_client import Letta, CreateBlock
 from analysis_agent.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 from utils import logger
-from config import EMBEDDING_CONFIG, LLM_CONFIG
 
 
 class AnalysisAgent:
-    def __init__(self, client: LocalClient | RESTClient):
+    def __init__(self, client: Letta):
         self.client = client
 
     def create(self):
@@ -19,11 +18,13 @@ class AnalysisAgent:
                 extract below information from the prompt, generate a json as below specific to the usecase
 
                 # JSON INPUT EXAMPLE
+                ## portfolio_value is the total value of the portfolio to allocate,
                 ## tickers are the stocks we try to allocate for the portfolio, tickers array should be always non empty
                 ## viewdict is the view for a particular stock movement a value between -1, 1 if no investor view provided in the prompt keep this empty
                 ## confidence is how much confident we are regardign the viewdict movements, if view dict is empty keep this empty as well
                 ## intervals, this is an empty array
                 {
+                    "portfolio_value": 1000000,
                     "tickers": ["MSFT", "AMZN", "NAT", "BAC", "DPZ", "DIS", "KO", "MCD", "COST", "SBUX"],
                     "viewdict": {
                         "AMZN": 0.10,
@@ -48,22 +49,29 @@ class AnalysisAgent:
             import sys
             import os
 
-            import sys
-            import os
-            sys.path(os.environ["SYS_PATH"])
+            sys.path.append(os.environ["SYS_PATH"])
             from analysis_agent.portfolio import PortfolioTools
 
             return PortfolioTools(config).bl_allocation()
 
-        bl_allocation_tool = self.client.create_tool(
-            allocate_portfolio_with_blacklittermen_model
+        bl_allocation_tool = self.client.tools.create_from_function(
+            func=allocate_portfolio_with_blacklittermen_model
         )
 
-        new_agent = self.client.create_agent(
+        new_agent = self.client.agents.create(
             name=NAME,
-            embedding_config=EMBEDDING_CONFIG,
-            llm_config=LLM_CONFIG,
-            memory=ChatMemory(human=HUMAN_PROMPT, persona=PERSONA_PROMPT),
+            memory_blocks=[
+                CreateBlock(
+                    value=HUMAN_PROMPT,
+                    label="human",
+                ),
+                CreateBlock(
+                    value=PERSONA_PROMPT,
+                    label="persona",
+                ),
+            ],
+            model="openai/gpt-4o-mini",
+            embedding="openai/text-embedding-ada-002",
             tool_ids=[bl_allocation_tool.id],
         )
 

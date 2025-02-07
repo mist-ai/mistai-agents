@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.environ["SYS_PATH"])
 import json
 import numpy as np
 import pandas as pd
@@ -103,10 +106,10 @@ class PortfolioTools:
 
         # pd.Series(weights).plot.pie(figsize=(10, 10))
 
-        da = DiscreteAllocation(weights, prices.iloc[-1], total_portfolio_value=20000)
+        da = DiscreteAllocation(weights, prices.iloc[-1], total_portfolio_value=self.bl_config.portfolio_value)
         alloc, leftover = da.lp_portfolio()
         return json.dumps({"allocation": alloc, "leftover": leftover})
 
 
-p = PortfolioTools(json_string)
-print(p.bl_allocation())
+# p = PortfolioTools(json_string)
+# print(p.bl_allocation())
