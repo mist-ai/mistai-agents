@@ -34,7 +34,7 @@ class Orchestrator:
                 messages=[
                     MessageCreate(
                         role="user",
-                        content="can you say hi",
+                        content=prompt,
                     )
                 ],
             )
