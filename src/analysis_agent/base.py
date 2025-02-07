@@ -11,6 +11,7 @@ class BLConfig:
         confidences: List[float],
         intervals: List[Tuple[float, float]],
     ):
+        self.portfolio_value = portfolio_value
         self.tickers = tickers
         self.viewdict = viewdict
         self.confidences = confidences

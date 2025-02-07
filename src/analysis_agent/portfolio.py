@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(os.environ["SYS_PATH"])
 import json
 import numpy as np
@@ -10,6 +11,7 @@ from pypfopt import BlackLittermanModel
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
 from analysis_agent.base import BLConfig, json_string
+from tradingview_ta import TA_Handler, Interval
 
 
 class PortfolioTools:
@@ -106,9 +108,25 @@ class PortfolioTools:
 
         # pd.Series(weights).plot.pie(figsize=(10, 10))
 
-        da = DiscreteAllocation(weights, prices.iloc[-1], total_portfolio_value=self.bl_config.portfolio_value)
+        da = DiscreteAllocation(
+            weights,
+            prices.iloc[-1],
+            total_portfolio_value=self.bl_config.portfolio_value,
+        )
         alloc, leftover = da.lp_portfolio()
         return json.dumps({"allocation": alloc, "leftover": leftover})
+
+    def technical_summary(self, ticker: str) -> dict:
+        handler = TA_Handler(
+            symbol=ticker,
+            screener="srilanka",
+            exchange="CSELK",
+            interval=Interval.INTERVAL_1_DAY,
+        )
+        return dict(
+            summary=handler.get_analysis().summary,
+            indicators=handler.get_analysis().indicators,
+        )
 
 
 # p = PortfolioTools(json_string)
