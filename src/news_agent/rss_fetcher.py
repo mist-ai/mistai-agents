@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path(os.environ["SYS_PATH"])
+sys.path.append(os.environ["SYS_PATH"])
 import miniflux
 from news_agent.base import NewsFetcher, News
 import json

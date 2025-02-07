@@ -1,5 +1,3 @@
-import os
-import sys
 from letta_client import Letta, CreateBlock
 from utils import logger
 from config import EMBEDDING_CONFIG, LLM_CONFIG
@@ -24,7 +22,7 @@ class NewsAgent:
 
             import sys
             import os
-            sys.path(os.environ["SYS_PATH"])
+            sys.path.append(os.environ["SYS_PATH"])
             from news_agent.rss_fetcher import rss_fetcher
 
             return rss_fetcher.fetch(keyword)
@@ -39,7 +37,7 @@ class NewsAgent:
             """
             import sys
             import os
-            sys.path(os.environ["SYS_PATH"])
+            sys.path.append(os.environ["SYS_PATH"])
             from news_agent.gnews_fetcher import gnews_fetcher
 
             return gnews_fetcher.fetch(keyword)

@@ -1,15 +1,9 @@
-from .base import NewsFetcher, News
-from gnews import GNews
-from googlenewsdecoder import new_decoderv1
-from newspaper import Article
-import time
-import random
-import requests
-from ..utils import logger
+from news_agent.base import NewsFetcher
+
 
 class GNewsFetcher(NewsFetcher):
     def __init__(self):
-        self.gnews = GNews()
+        ...
 
     def fetch(self, keyword: str) -> list:
         """
@@ -21,16 +15,29 @@ class GNewsFetcher(NewsFetcher):
         Returns:
             List[News]: A list of `News` objects representing the fetched news articles.
         """
+        import sys
+        import os
+        sys.path.append(os.environ["SYS_PATH"])
+        from news_agent.base import News
+        from googlenewsdecoder import new_decoderv1
+        from newspaper import Article
+        import time
+        import random
+        import requests
+        from gnews import GNews
+
+
+        gnews = GNews()
         news_articles = []
-        results = self.gnews.get_news(keyword)
+        results = gnews.get_news(keyword)
 
         for i in range(len(results)):
-            url = results[i]['url']
+            url = results[i]["url"]
             redirected_url = new_decoderv1(url, 2)
 
             # Handle case where decoding fails
             if not redirected_url or "decoded_url" not in redirected_url:
-                logger.warning(f"Failed to decode URL: {url}")
+                # logger.warning(f"Failed to decode URL: {url}")
                 continue  # Skip this article
 
             decoded_url = redirected_url["decoded_url"]
@@ -42,30 +49,30 @@ class GNewsFetcher(NewsFetcher):
             response = requests.get(decoded_url, headers=headers)
 
             if response.status_code != 200:
-                logger.warning(f"Failed to fetch article: {decoded_url} (Status: {response.status_code})")
+                # logger.warning(f"Failed to fetch article: {decoded_url} (Status: {response.status_code})")
                 continue  # Skip this article
 
             # Use newspaper3k with custom headers
             article = Article(decoded_url, browser_user_agent=headers["User-Agent"])
 
             try:
-                time.sleep(random.uniform(1, 2)) 
+                time.sleep(random.uniform(1, 2))
                 article.download(input_html=response.text)  # Use pre-fetched HTML
                 article.parse()
-                results[i]['content'] = article.text
+                results[i]["content"] = article.text
 
                 news = News(
                     title=results[i].get("title", "No Title"),
                     description=results[i].get("description", "No Description"),
                     url=results[i].get("url", "No URL"),
                     date=results[i].get("published date", "No Date"),
-                    content=article.text
+                    content=article.text,
                 )
                 news_articles.append(news)
             except Exception as e:
-                logger.error(f"Error parsing article: {decoded_url} | {str(e)}")
+                # logger.error(f"Error parsing article: {decoded_url} | {str(e)}")
+                return e
 
         return news_articles
 
-
-
+gnews_fetcher = GNewsFetcher()
