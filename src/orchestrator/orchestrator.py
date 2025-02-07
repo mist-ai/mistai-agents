@@ -38,7 +38,7 @@ class Orchestrator:
                     )
                 ],
             )
-            print(response.messages[len(response.messages) - 1].content)
+            return response.messages[len(response.messages) - 1].content
 
         def call_analysis_agent(prompt: str) -> str:
             """
