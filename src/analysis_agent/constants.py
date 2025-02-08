@@ -21,11 +21,13 @@ I can allocate a portfolio using my tool bl_allocation_tool
                 extract below information from the prompt, generate a json as below specific to the usecase
 
                 # JSON INPUT EXAMPLE
+                ## portfolio_value represents the value of the portfolio and this is always required
                 ## tickers are the stocks we try to allocate for the portfolio, tickers array should be always non empty
                 ## viewdict is the view for a particular stock movement a value between -1, 1 if no investor view provided in the prompt keep this empty
                 ## confidence is how much confident we are regardign the viewdict movements, if view dict is empty keep this empty as well
                 ## intervals, this is an empty array
                 {
+                    "portfolio_value": 10450
                     "tickers": ["MSFT", "AMZN", "NAT", "BAC", "DPZ", "DIS", "KO", "MCD", "COST", "SBUX"],
                     "viewdict": {
                         "AMZN": 0.10,

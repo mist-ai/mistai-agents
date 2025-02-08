@@ -1,7 +1,7 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.environ["SYS_PATH"])
+# sys.path.append(os.environ["SYS_PATH"])
 import json
 import numpy as np
 import pandas as pd
@@ -11,29 +11,35 @@ from pypfopt import BlackLittermanModel
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
 from analysis_agent.base import BLConfig, json_string
+from analysis_agent.agent_utils import get_prices, get_market_caps
 from tradingview_ta import TA_Handler, Interval
 
 
 class PortfolioTools:
-    def __init__(self, config: str):
-        self.bl_config = BLConfig.from_json(config)
+    def __init__(self):
+        ...
 
-    def bl_allocation(self):
+    def bl_allocation(self, config: str):
+        self.bl_config = BLConfig.from_json(config)
         if len(self.bl_config.tickers) == 0:
             return json.dumps({})
 
-        ohlc = yf.download(self.bl_config.tickers, period="max")
-        prices = ohlc["Close"]
+        # ohlc = yf.download(self.bl_config.tickers, period="max")
+        # prices = ohlc["Close"]
+        prices = get_prices(self.bl_config.tickers)
         prices.tail()
 
-        market_prices = yf.download("SPY", period="max")["Close"]
-        market_prices.head()
+        # market_prices = yf.download("SPY", period="max")["Close"]
+        # market_prices.head()
+        market_prices = get_prices(["ASI"])
 
-        mcaps = {}
-        for t in self.bl_config.tickers:
-            stock = yf.Ticker(t)
-            mcaps[t] = stock.info["marketCap"]
-        mcaps
+        # mcaps = {}
+        # for t in self.bl_config.tickers:
+        #     stock = yf.Ticker(t)
+        #     mcaps[t] = stock.info["marketCap"]
+        # mcaps
+
+        mcaps = get_market_caps(self.bl_config.tickers, currency="LKR")
 
         S = risk_models.CovarianceShrinkage(prices).ledoit_wolf()
         delta = black_litterman.market_implied_risk_aversion(market_prices)
@@ -114,7 +120,7 @@ class PortfolioTools:
             total_portfolio_value=self.bl_config.portfolio_value,
         )
         alloc, leftover = da.lp_portfolio()
-        return json.dumps({"allocation": alloc, "leftover": leftover})
+        return alloc, leftover
 
     def technical_summary(self, ticker: str) -> dict:
         handler = TA_Handler(
@@ -126,8 +132,11 @@ class PortfolioTools:
         return dict(
             summary=handler.get_analysis().summary,
             indicators=handler.get_analysis().indicators,
+            oscillators=handler.get_analysis().oscillators,
+            moving_averages=handler.get_analysis().moving_averages,
         )
 
 
-# p = PortfolioTools(json_string)
-# print(p.bl_allocation())
+# p = PortfolioTools()
+# print(p.technical_summary())
+# print(p.bl_allocation(json_string))

@@ -50,7 +50,7 @@ class Orchestrator:
             """
             Call the Analysis agent to generate a response to the user input.
             you can call analysis_agent in a case of below:
-                - create a porfolio for given stocks, but you have to pass tickers of the stock inorder to get a response
+                - create a porfolio for given stocks, but you have to pass tickers of the stock, and the portfolio_value inorder to get a response
 
             Args:
                 prompt (str): prompt that should be passed for the analysis agent

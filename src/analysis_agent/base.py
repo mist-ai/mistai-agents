@@ -47,43 +47,11 @@ class BLConfig:
 # example json
 json_string = """
 {
-    "portfolio_value": 1000000,
-    "tickers": ["MSFT", "AMZN", "NAT", "BAC", "DPZ", "DIS", "KO", "MCD", "COST", "SBUX"],
+    "portfolio_value": 250,
+    "tickers": ["SAMP.N0000", "AEL.N0000"],
     "viewdict": {
-        "AMZN": 0.10,
-        "BAC": 0.30,
-        "COST": 0.05,
-        "DIS": 0.05,
-        "DPZ": 0.20,
-        "KO": -0.05,
-        "MCD": 0.15,
-        "MSFT": 0.10,
-        "NAT": 0.50,
-        "SBUX": 0.10
     },
-    "confidences": [
-        0.6,
-        0.4,
-        0.2,
-        0.5,
-        0.7,
-        0.7,
-        0.7,
-        0.5,
-        0.1,
-        0.4
-    ],
-    "intervals": [
-        [0, 0.25],
-        [0.1, 0.4],
-        [-0.1, 0.15],
-        [-0.05, 0.1],
-        [0.15, 0.25],
-        [-0.1, 0],
-        [0.1, 0.2],
-        [0.08, 0.12],
-        [0.1, 0.9],
-        [0, 0.3]
-    ]
+    "confidences": [],
+    "intervals": []
 }
 """
