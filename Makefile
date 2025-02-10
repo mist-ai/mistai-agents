@@ -20,3 +20,8 @@ stop:
 		echo "Killing process $$PID on port 8080"; \
 		kill -9 $$PID; \
 	fi
+
+start-dependencies:
+	docker compose up -d
+	echo "migrate data to graph database..."
+	python src/dependency/neo4j.py
