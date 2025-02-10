@@ -23,7 +23,6 @@ stop:
 
 start-dependencies:
 	docker compose down
-	docker 
 	docker compose up -d
 	echo "migrate data to graph database..."
 	python src/dependency/neo4j.py
