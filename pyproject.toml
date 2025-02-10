@@ -20,6 +20,8 @@ dependencies = [
   "tradingview-ta>=3.3.0",
   "tvdatafeed",
   "asyncio>=3.4.3",
+  "neo4j>=5.28.0",
+  "gliner>=0.2.16",
 ]
 name = "mistai-agents"
 version = "0.1.0"
