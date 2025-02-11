@@ -4,6 +4,7 @@ from ips_agent.ips_agent import IPSAgent
 from orchestrator.orchestrator import Orchestrator
 from news_agent.news_agent import NewsAgent
 from analysis_agent.analysis_agent import AnalysisAgent
+from widget_agent.widget_agent import WidgetAgent
 
 load_dotenv("./../.env")
 
@@ -21,6 +22,9 @@ def main():
 
     analysis_agent = AnalysisAgent(client=client)
     analysis_agent.create()
+
+    widget_agent = WidgetAgent(client=client)
+    widget_agent.create()
 
 
 if __name__ == "__main__":
