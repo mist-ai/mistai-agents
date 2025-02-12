@@ -1,6 +1,5 @@
 import sys
 import os
-from dotenv import load_dotenv
 from neo4j import GraphDatabase
 sys.path.append(os.environ["SYS_PATH"])
 

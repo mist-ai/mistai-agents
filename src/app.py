@@ -5,6 +5,7 @@ from orchestrator.orchestrator import Orchestrator
 from news_agent.news_agent import NewsAgent
 from analysis_agent.analysis_agent import AnalysisAgent
 from widget_agent.widget_agent import WidgetAgent
+from io_agent.io_agent import IOAgent
 
 load_dotenv("./../.env")
 
@@ -25,6 +26,9 @@ def main():
 
     widget_agent = WidgetAgent(client=client)
     widget_agent.create()
+
+    io_agent = IOAgent(client=client)
+    io_agent.create()
 
 
 if __name__ == "__main__":

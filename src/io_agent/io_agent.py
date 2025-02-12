@@ -1,6 +1,5 @@
 from letta_client import Letta, CreateBlock
 from utils import logger
-from config import EMBEDDING_CONFIG, LLM_CONFIG
 from io_agent.constants import NAME, PERSONA_PROMPT, HUMAN_PROMPT
 
 
@@ -9,23 +8,28 @@ class IOAgent:
         self.client = client
 
     def create(self):
-        def call_db_service(keyword: str) -> str:
+        def call_db_service(sector: str, keyword: str) -> str:
+            """
+            Call the database service to generate a response to the user input.
+            you can call_db_service in a case of below:
+                - fetch more info for a give list of company names
 
+            Args:
+                sector (str): sector of the company
+                keyword (str): company name
 
+            Returns:
+                response (str): IO agent response
+            """
             import sys
             import os
+
             sys.path.append(os.environ["SYS_PATH"])
             from io_agent.database_service import db_service
 
-            return db_service.get_company_info(keyword)
-        
-       
+            return db_service.get_company_info(sector, keyword)
 
-        
-        db_service_tool = self.client.tools.create_from_function(
-            func=call_db_service
-        )
-
+        db_service_tool = self.client.tools.create_from_function(func=call_db_service)
 
         io_agent = self.client.agents.create(
             name=NAME,
