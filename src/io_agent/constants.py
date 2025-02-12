@@ -13,7 +13,7 @@ My role is to manage all the input output operations.
 1. **get_company_info**
 - **Purpose:** I use this tool to get the ticker for a given company.
 - **Preliminary Work**
-    - based on the input I select the sector of the company based on the below list.
+    - return the sector from the following. Strictly retun the exact words.
         Automobiles & Components
         Banks
         Capital Goods

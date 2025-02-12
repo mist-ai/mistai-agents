@@ -27,7 +27,7 @@ class IOAgent:
             sys.path.append(os.environ["SYS_PATH"])
             from io_agent.database_service import db_service
 
-            return db_service.get_company_info(sector, keyword)
+            return db_service.get_company_info(keyword, sector=sector)
 
         db_service_tool = self.client.tools.create_from_function(func=call_db_service)
 
