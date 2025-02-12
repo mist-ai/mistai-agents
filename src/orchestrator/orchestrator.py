@@ -130,7 +130,6 @@ class Orchestrator:
         def call_io_agent(prompt: str) -> str:
             """
             Call the IO agent to generate a response to the user input.
-            if it returns no results try with another sector until we get a ticker
             you can call IO agent in a case of below:
                 - fetch more info for a give list of company names
 
