@@ -69,3 +69,5 @@ def get_exchange_rate(currency: str = "LKR"):
             return exchange_rate
 
     return None
+
+

@@ -1,6 +1,5 @@
 import sys
 import os
-
 sys.path.append(os.environ["SYS_PATH"])
 import miniflux
 from news_agent.base import NewsFetcher, News
@@ -49,5 +48,5 @@ class RSSFetcher(NewsFetcher):
         return rss_entries
 
 
-# rss_fetcher = RSSFetcher()
+rss_fetcher = RSSFetcher()
 # print(rss_fetcher.fetch("hnb"))

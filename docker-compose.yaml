@@ -3,6 +3,7 @@ services:
     image: miniflux/miniflux:latest
     ports:
       - "18001:8080"
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
@@ -20,6 +21,7 @@ services:
       - POSTGRES_DB=miniflux
     ports:
       - 5432:5432
+    restart: unless-stopped
     volumes:
       - miniflux-db:/var/lib/postgresql/data
     healthcheck:

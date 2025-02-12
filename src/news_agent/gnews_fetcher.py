@@ -76,3 +76,4 @@ class GNewsFetcher(NewsFetcher):
         return news_articles
 
 gnews_fetcher = GNewsFetcher()
+print(gnews_fetcher.fetch("stock market"))
