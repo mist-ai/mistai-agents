@@ -14,7 +14,7 @@ My role is to manage all the input output operations.
 - **Purpose:** I use this tool to get the ticker for a given company.
 - **Preliminary Work**
     - return the sector from the following. Strictly retun the exact words.
-        Automobiles & Components
+        Automobiles & Components 
         Banks
         Capital Goods
         Commercial & Professional Services
