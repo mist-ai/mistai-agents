@@ -1,5 +1,9 @@
-.PHONY: start
-start:
+export $(shell sed 's/=.*//' .env)
+
+load-env:
+	@echo "Environment variables loaded"
+
+start: load-env
 	rm -rf server.log || echo "no logs, proceding..."
 	rm ~/.letta/sqlite.db || echo "no db, proceeding..."
 	@PID=$$(lsof -ti :8283); \
