@@ -8,6 +8,51 @@ NEO4J_USERNAME = "neo4j"
 NEO4J_PASSWORD = "password"
 NEO4J_DATABASE = "neo4j"
 
+import wikipediaapi
+from googlesearch import search
+from faker import Faker
+import time
+
+# Initialize the Faker instance
+fake = Faker()
+
+
+# Function to perform Google search and extract Wikipedia URL
+def get_wikipedia_url(query):
+    # Perform a Google search for the query
+    search_results = search(query, num_results=10)
+
+    # Look for the Wikipedia URL in the search results
+    for url in search_results:
+        if "wikipedia.org" in url:
+            return url
+    return None
+
+
+def search_comapny(name):
+    # Perform Google search to find the Wikipedia page for Vallibel Power Erathna PLC
+    company_name = name
+    wikipedia_url = get_wikipedia_url(company_name)
+
+    if wikipedia_url:
+        # Extract the page name from the Wikipedia URL (remove 'https://en.wikipedia.org/wiki/')
+        page_name = wikipedia_url.split("/")[-1]
+        # Generate a random name
+        random_name = fake.name()
+        # Initialize the Wikipedia API
+        wiki_wiki = wikipediaapi.Wikipedia(random_name)
+
+        # Get the page for the company
+        page = wiki_wiki.page(page_name)
+
+        # Check if the page exists and print the summary
+        if page.exists():
+            return page.summary
+        else:
+            return None
+    else:
+        return None
+
 
 # Neo4j driver
 class Neo4jHandler:
@@ -24,6 +69,7 @@ class Neo4jHandler:
             session.write_transaction(self.create_cse)
 
             for sector, companies in data.items():
+                time.sleep(2)
                 # Create sector node and link it to CSE
                 session.write_transaction(self.create_sector, sector)
                 session.write_transaction(self.create_sector_cse_relationship, sector)
@@ -49,8 +95,9 @@ class Neo4jHandler:
 
     @staticmethod
     def create_company(tx, company_name, ticker):
+        description = search_comapny(company_name)
         query = """
-        MERGE (c:Company {name: $company_name})
+        MERGE (c:Company {name: $company_name, description: $description})
         SET c.ticker = $ticker
         """
         tx.run(query, company_name=company_name, ticker=ticker)
