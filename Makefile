@@ -1,9 +1,14 @@
-export $(shell sed 's/=.*//' .env)
+# Load variables from .env file
+ifneq (,$(wildcard .env))
+    include .env
+    export $(shell sed 's/=.*//' .env)
+endif
 
 load-env:
 	@echo "Environment variables loaded"
 
 start: load-env
+	@echo $(NEO4J_URI)
 	rm -rf server.log || echo "no logs, proceding..."
 	rm ~/.letta/sqlite.db || echo "no db, proceeding..."
 	@PID=$$(lsof -ti :8283); \
@@ -28,5 +33,5 @@ stop:
 start-dependencies:
 	docker compose down
 	docker compose up -d
-	echo "migrate data to graph database..."
-	python src/dependency/neo4j.py
+	@echo "migrate data to graph database..."
+	python src/dependency/migrate-neo.py
