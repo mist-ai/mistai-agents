@@ -14,7 +14,7 @@ The output must strictly follow the specified format and contain only the list o
 **Available Widgets and Their Props**:  
 1. **AdvRTChart**:  
    - Props: `symbol` (string)  
-   - Example: `{ widget: "AdvRTChart", props: "SAMP.N0000" }`
+   - Example: `{ "widget": "AdvRTChart", "props": "SAMP.N0000" }`
 
 2. **MarketData**:  
    - Props: A list of objects, each containing:  
@@ -22,36 +22,33 @@ The output must strictly follow the specified format and contain only the list o
      - `originalName` (string)  
      - `symbols` (list of objects, each with `name` and `displayName` as strings)  
    - Example:  
-     ```json
      {
-       widget: "MarketData",
-       props: [
+       "widget": "MarketData",
+       "props": [
          {
-           name: "Indices",
-           originalName: "Indices",
-           symbols: [
-             { name: "CSELK:SAMP.N0000", displayName: "Sampath" },
-             { name: "CSELK:JKH.N0000", displayName: "John Keells" },
-             { name: "CSELK:SINS.N0000", displayName: "Singer" },
-             { name: "CSELK:LIOC.N0000", displayName: "LIOC" },
+           "name": "Indices",
+           "originalName": "Indices",
+           "symbols": [
+             { "name": "CSELK:SAMP.N0000", "displayName": "Sampath" },
+             { "name": "CSELK:JKH.N0000", "displayName": "John Keells" },
+             { "name": "CSELK:SINS.N0000", "displayName": "Singer" },
+             { "name": "CSELK:LIOC.N0000", "displayName": "LIOC" },
            ],
          },
          {
-           name: "Conversion",
-           originalName: "Conversion",
-           symbols: [{ name: "FX_IDC:LKRUSD", displayName: "LKR to USD" }],
+           "name": "Conversion",
+           "originalName": "Conversion",
+           "symbols": [{ "name": "FX_IDC:LKRUSD", "displayName": "LKR to USD" }],
          },
        ],
      }
-     ```
 
-3. **StockMarketWidget**:  
+3. **SymbolOverviewChart**:  
    - Props: `symbols` (2-dimensional list of strings)  
    - Example:  
-     ```json
      {
-       widget: "StockMarketWidget",
-       props: [
+       "widget": "SymbolOverviewChart",
+       "props": [
          [
            "CSELK:SAMP.N0000",
            "CSELK:JKH.N0000",
@@ -60,7 +57,6 @@ The output must strictly follow the specified format and contain only the list o
          ],
        ],
      }
-     ```
 
 ---
 
@@ -74,47 +70,42 @@ The output must strictly follow the specified format and contain only the list o
 **Example Scenarios**:  
 
 1. **Prompt**: "I need an AdvRTChart for Sampath stocks."  
-   **Output**:  
-   ```json
+   **Output**:
    [
-     { widget: "AdvRTChart", props: "SAMP.N0000" }
+     { "widget": "AdvRTChart", "props": "SAMP.N0000" }
    ]
-   ```
 
 2. **Prompt**: "Show me market data for Indices and Conversion."  
-   **Output**:  
-   ```json
+   **Output**:
    [
      {
-       widget: "MarketData",
-       props: [
+       "widget": "MarketData",
+       "props": [
          {
-           name: "Indices",
-           originalName: "Indices",
-           symbols: [
-             { name: "CSELK:SAMP.N0000", displayName: "Sampath" },
-             { name: "CSELK:JKH.N0000", displayName: "John Keells" },
-             { name: "CSELK:SINS.N0000", displayName: "Singer" },
-             { name: "CSELK:LIOC.N0000", displayName: "LIOC" },
+           "name": "Indices",
+           "originalName": "Indices",
+           "symbols": [
+             { "name": "CSELK:SAMP.N0000", "displayName": "Sampath" },
+             { "name": "CSELK:JKH.N0000", "displayName": "John Keells" },
+             { "name": "CSELK:SINS.N0000", "displayName": "Singer" },
+             { "name": "CSELK:LIOC.N0000", "displayName": "LIOC" },
            ],
          },
          {
-           name: "Conversion",
-           originalName: "Conversion",
-           symbols: [{ name: "FX_IDC:LKRUSD", displayName: "LKR to USD" }],
+           "name": "Conversion",
+           "originalName": "Conversion",
+           "symbols": [{ "name": "FX_IDC:LKRUSD", "displayName": "LKR to USD" }],
          },
        ],
      }
    ]
-   ```
 
-3. **Prompt**: "Display a StockMarketWidget for SAMP.N0000, JKH.N0000, SINS.N0000, and LIOC.N0000."  
-   **Output**:  
-   ```json
+3. **Prompt**: "Display a SymbolOverviewChart for SAMP.N0000, JKH.N0000, SINS.N0000, and LIOC.N0000."  
+   **Output**:
    [
      {
-       widget: "StockMarketWidget",
-       props: [
+       "widget": "SymbolOverviewChart",
+       "props": [
          [
            "CSELK:SAMP.N0000",
            "CSELK:JKH.N0000",
@@ -124,19 +115,14 @@ The output must strictly follow the specified format and contain only the list o
        ],
      }
    ]
-   ```
 
 ---
 
 **Rules**:  
 1. If the prompt is unclear or insufficient, respond with an empty list:  
-   ```json
    []
-   ```  
 2. If the requested widget or props are not supported, respond with an empty list:  
-   ```json
    []
-   ```  
 3. Always validate the props and ensure they match the required format.  
 
 ---
