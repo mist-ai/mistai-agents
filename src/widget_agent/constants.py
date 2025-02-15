@@ -58,6 +58,21 @@ The output must strictly follow the specified format and contain only the list o
        ],
      }
 
+4. **TickersSlider**:  
+   - Props: A list of objects, each containing:  
+     - `proName` (string)  
+     - `title` (string)  
+   - Example:  
+     {
+       "widget": "TickersSlider",
+       "props": [
+         { "proName": "CSELK:SAMP.N0000", "title": "Sampath Bank" },
+         { "proName": "CSELK:JKH.N0000", "title": "John Keells" },
+         { "proName": "CSELK:COMB.N0000", "title": "Commercial Bank" },
+         { "proName": "CSELK:LOLC.N0000", "title": "LOLC" },
+       ],
+     }
+
 ---
 
 **Output Format**:  
@@ -112,6 +127,20 @@ The output must strictly follow the specified format and contain only the list o
            "CSELK:SINS.N0000",
            "CSELK:LIOC.N0000",
          ],
+       ],
+     }
+   ]
+
+4. **Prompt**: "Show me a TickersSlider with Sampath Bank, John Keells, Commercial Bank, and LOLC."  
+   **Output**:
+   [
+     {
+       "widget": "TickersSlider",
+       "props": [
+         { "proName": "CSELK:SAMP.N0000", "title": "Sampath Bank" },
+         { "proName": "CSELK:JKH.N0000", "title": "John Keells" },
+         { "proName": "CSELK:COMB.N0000", "title": "Commercial Bank" },
+         { "proName": "CSELK:LOLC.N0000", "title": "LOLC" },
        ],
      }
    ]
