@@ -110,8 +110,6 @@ class Neo4jHandler:
     def create_company(tx, company_name, ticker):
         description = search_comapny(company_name)
         emds = embeddings.encode([description])[0].tolist()
-        with open("/Users/admin/Documents/Personal/fyp/mistai-agents/src/dependency/company_info.csv", "a") as file:
-            file.write(f"{company_name}, {description}\n")
         query = """
         MERGE (c:Company {name: $company_name, description: $description, embeddings: $embeddings})
         SET c.ticker = $ticker
@@ -277,8 +275,6 @@ data = {
         "Asia Siyaka Commodities PLC": "ASIY.N0000",
         "Associated Motor Finance Company PLC": "AMF.N0000",
         "Capital Alliance Treasury Limited": "CALT.N0000",
-        "Central Finance Company PLC": "CFIN.N0000",
-        "Citizens Development Business Finance PLC": "CDB.N0000",
         "Commercial Credit & Finance PLC": "COCR.N0000",
         "First Capital Holdings PLC": "CFVF.N0000",
         "First Capital Treasuries PLC": "FCT.N0000",

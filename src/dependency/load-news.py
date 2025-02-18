@@ -25,11 +25,6 @@ df = df.dropna(subset=["Content"])  # Specify engine="openpyxl" for .xlsx files
 
 # Function to run queries
 def run_query(driver, query):
-    with open(
-        "/Users/admin/Documents/Personal/fyp/mistai-agents/src/dependency/golden-copy.cql",
-        "a",
-    ) as file:
-        file.write(f"{query}\n")
     with driver.session() as session:
         result = session.run(query)
         return [record for record in result]

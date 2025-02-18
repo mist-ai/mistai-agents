@@ -16,7 +16,7 @@ start: load-env
 		echo "Killing process $$PID on port 8080"; \
 		kill -9 $$PID; \
 	fi
-	letta server --ade --port=8283 > server.log &
+	letta server --ade --port=8283 >> logfile.log 2>&1 &
 	sleep 5
 	python src/app.py
 
@@ -31,9 +31,9 @@ stop:
 	fi
 
 start-dependencies:
-	docker compose down
-	docker compose up -d
-	@echo "migrate data to graph database..."
+	# docker compose down
+	# docker compose up -d
+	# @echo "migrate data to graph database..."
 	python src/dependency/migrate-neo.py
 	python -m spacy download en_core_web_md
 	python -m spacy download en_core_web_trf
