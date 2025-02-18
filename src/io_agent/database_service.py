@@ -20,32 +20,31 @@ class DatabaseService:
 
                 
     def get_company_info(self, keyword, sector=None):
-        """Fetch company tickers for a given keyword, optionally filtering by sector."""
+        """Fetch company tickers and names for a given keyword, optionally filtering by sector."""
         query = f"""
         MATCH (c:Company)
         WHERE (c.name CONTAINS "{keyword}" OR c.ticker CONTAINS "{keyword}" OR c.name CONTAINS "{keyword.split()[0]}")
-        """  
+        """
 
         # If sector is provided, add the filter for sector
         if sector:
             query_with_sector = query + " AND (c)-[:BELONGS_TO]->(:Sector {name: $sector})"
-            query_with_sector += " RETURN DISTINCT c.ticker AS ticker"
+            query_with_sector += " RETURN DISTINCT c.ticker AS ticker, c.name AS name"
         else:
-            query_with_sector = query + " RETURN DISTINCT c.ticker AS ticker"
+            query_with_sector = query + " RETURN DISTINCT c.ticker AS ticker, c.name AS name"
 
-        query_with_no_sector = query + " RETURN DISTINCT c.ticker AS ticker"  # Default query without sector filter
+        query_with_no_sector = query + " RETURN DISTINCT c.ticker AS ticker, c.name AS name"  # Default query without sector filter
 
         with self.driver.session() as session:
             # First, try with the sector filter
             result = session.execute_read(lambda tx: tx.run(query_with_sector, keyword=keyword, sector=sector).values())
-            
+
             # If no result found with the sector filter, try without sector filter
             if not result:
                 result = session.execute_read(lambda tx: tx.run(query_with_no_sector, keyword=keyword).values())
-            
-        # Return the results without null values
-        return [record[0] for record in result if record[0] is not None]
 
+        # Return the results as a list of tuples (ticker, name), filtering out null values
+        return [(record[0], record[1]) for record in result if record[0] is not None and record[1] is not None]
 
     # # Get the news articles for a given keyword
     # def get_news_articles(self, keyword):

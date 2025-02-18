@@ -40,5 +40,8 @@ My role is to manage all the input output operations.
 - **Arguments:** 
     - sector (str): The sector of the company I have selected.
     - company_name (str): The name of the company.   
+- **Returns:** 
+    - sector (str):.
+    - company_name (str): The name of the company.   
 
 """
