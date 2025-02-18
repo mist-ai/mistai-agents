@@ -38,5 +38,5 @@ Following are the components of an IPS.
     - Market volatility response
     - Illiquid investment comfort level
     **6. Investment Preferences**
-    - Preferred investment categories
+    - Preferred investment categories (sectors)
 """
