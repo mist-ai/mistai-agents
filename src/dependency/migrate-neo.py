@@ -1,6 +1,9 @@
 # Install Neo4j Python driver
 
 from neo4j import GraphDatabase
+from sentence_transformers import (
+    SentenceTransformer,
+)  # Replace with actual embedding library
 
 # Replace these with your Neo4j Sandbox credentials
 NEO4J_URI = "bolt://localhost:7687"
@@ -15,22 +18,32 @@ import time
 
 # Initialize the Faker instance
 fake = Faker()
-
+embeddings = SentenceTransformer("all-MiniLM-L6-v2")
 
 # Function to perform Google search and extract Wikipedia URL
 def get_wikipedia_url(query):
-    # Perform a Google search for the query
-    search_results = search(query, num_results=10)
+    import http.client
+    import json
 
-    # Look for the Wikipedia URL in the search results
-    for url in search_results:
-        if "wikipedia.org" in url:
-            return url
+    conn = http.client.HTTPSConnection("google.serper.dev")
+    payload = json.dumps({"q": query, "location": "Sri Lanka", "gl": "lk"})
+    headers = {
+        "X-API-KEY": "dd2b0f6a223d54dca19962e56a30adf8882b49d8",
+        "Content-Type": "application/json",
+    }
+    conn.request("POST", "/search", payload, headers)
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    output = json.loads(data)
+    for i in output["organic"]:
+        if "wikipedia.org" in i['link']:
+            return i["link"]
     return None
 
 
 def search_comapny(name):
     # Perform Google search to find the Wikipedia page for Vallibel Power Erathna PLC
+
     company_name = name
     wikipedia_url = get_wikipedia_url(company_name)
 
@@ -49,9 +62,9 @@ def search_comapny(name):
         if page.exists():
             return page.summary
         else:
-            return None
+            return company_name
     else:
-        return None
+        return company_name
 
 
 # Neo4j driver
@@ -96,11 +109,20 @@ class Neo4jHandler:
     @staticmethod
     def create_company(tx, company_name, ticker):
         description = search_comapny(company_name)
+        emds = embeddings.encode([description])[0].tolist()
+        with open("/Users/admin/Documents/Personal/fyp/mistai-agents/src/dependency/company_info.csv", "a") as file:
+            file.write(f"{company_name}, {description}\n")
         query = """
-        MERGE (c:Company {name: $company_name, description: $description})
+        MERGE (c:Company {name: $company_name, description: $description, embeddings: $embeddings})
         SET c.ticker = $ticker
         """
-        tx.run(query, company_name=company_name, ticker=ticker)
+        tx.run(
+            query,
+            company_name=company_name,
+            ticker=ticker,
+            description=description,
+            embeddings=emds,
+        )
 
     @staticmethod
     def create_relationship(tx, company_name, sector_name):

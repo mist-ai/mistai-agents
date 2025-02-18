@@ -17,10 +17,12 @@ class IPSAgent:
                 CreateBlock(
                     value=HUMAN_PROMPT,
                     label="human",
+                    limit=10000
                 ),
                 CreateBlock(
                     value=PERSONA_PROMPT,
                     label="persona",
+                    limit=6000
                 ),
             ],
             model="openai/gpt-4o-mini",
