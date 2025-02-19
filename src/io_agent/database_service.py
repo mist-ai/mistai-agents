@@ -2,6 +2,8 @@ import sys
 import os
 from neo4j import GraphDatabase
 sys.path.append(os.environ["SYS_PATH"])
+from io_agent.keywords_extraction import extractor
+from io_agent.io_queries import QueryGenerator
 
 
 class DatabaseService:
@@ -19,44 +21,42 @@ class DatabaseService:
         self.driver.close()
 
                 
-    def get_company_info(self, keyword, sector=None):
-        """Fetch company tickers and names for a given keyword, optionally filtering by sector."""
-        query = f"""
-        MATCH (c:Company)
-        WHERE (c.name CONTAINS "{keyword}" OR c.ticker CONTAINS "{keyword}" OR c.name CONTAINS "{keyword.split()[0]}")
+    def run_query(self, query: str, parameters: dict = None):
         """
-
-        # If sector is provided, add the filter for sector
-        if sector:
-            query_with_sector = query + " AND (c)-[:BELONGS_TO]->(:Sector {name: $sector})"
-            query_with_sector += " RETURN DISTINCT c.ticker AS ticker, c.name AS name"
-        else:
-            query_with_sector = query + " RETURN DISTINCT c.ticker AS ticker, c.name AS name"
-
-        query_with_no_sector = query + " RETURN DISTINCT c.ticker AS ticker, c.name AS name"  # Default query without sector filter
-
+        Execute a Cypher query with optional parameters.
+        :param query: str - Cypher query to run
+        :param parameters: dict - Optional parameters for the query
+        :return: list - Query results
+        """
         with self.driver.session() as session:
-            # First, try with the sector filter
-            result = session.execute_read(lambda tx: tx.run(query_with_sector, keyword=keyword, sector=sector).values())
+            result = session.run(query, parameters or {})
+            return result.data()
+        
 
-            # If no result found with the sector filter, try without sector filter
-            if not result:
-                result = session.execute_read(lambda tx: tx.run(query_with_no_sector, keyword=keyword).values())
-
-        # Return the results as a list of tuples (ticker, name), filtering out null values
-        return [(record[0], record[1]) for record in result if record[0] is not None and record[1] is not None]
-
-    # # Get the news articles for a given keyword
-    # def get_news_articles(self, keyword):
-    #     """Fetch news articles related to a given keyword."""
-    #     query = """
-    #     MATCH (n:NewsArticle)
-    #     WHERE n.keywords CONTAINS $keyword
-    #     RETURN n.title AS title, n.source AS source, n.content AS content, n.date AS date
-    #     """
-    #     with self.driver.session() as session:
-    #         result = session.execute_read(lambda tx: tx.run(query, keyword=keyword).values())
-    #         return [{"title": record[0], "source": record[1], "content": record[2], "date": record[3]} for record in result]
-
+    def get_entities_from_graph(self,prompt):
+        """
+        Get the corresponding entities for the keywords from the graph
+        :param keywords: dict
+        :return: dict of keywords with their entities
+        """
+        entities = {}
+        keywords = extractor.extract(prompt)
+        
+        for keyword, label in keywords.items():
+            query = QueryGenerator.generate_company_query(keyword)
+        
+            result = self.run_query(query)
+            for record in result:
+                company_name = record['name']
+                company_ticker = record['ticker'] 
+                # add to entities
+                entities[keyword] = {
+                'company_name': company_name,
+                'ticker': company_ticker
+                } 
+                    
+        return entities 
+    
+            
 
 db_service = DatabaseService()

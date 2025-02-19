@@ -38,3 +38,7 @@ start-dependencies:
 	python -m spacy download en_core_web_md
 	python -m spacy download en_core_web_trf
 	python -m spacy_entity_linker "download_knowledge_base"
+
+	# Install additional libraries
+	echo "Installing additional libraries..."
+	pip install spacy gliner-spacy

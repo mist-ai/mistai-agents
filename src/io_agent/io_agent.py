@@ -8,18 +8,20 @@ class IOAgent:
         self.client = client
 
     def create(self):
-        def call_db_service(sector: str, keyword: str) -> str:
+        def call_db_service(prompt: str) -> str:
             """
-            Call the database service to generate a response to the user input.
-            you can call_db_service in a case of below:
-                - fetch more info for a give list of company names
+            Call the database service to generate a response based on user input.
+
+            This function can be used to interact with the database service to:
+            - Fetch more information for a given list of company names.
+            - Retrieve company data based on a provided sector and keyword.
 
             Args:
-                sector (str): sector of the company
-                keyword (str): company name
+                prompt (str): What user is looking for in the database as a user prompt
 
             Returns:
-                response (str): IO agent response
+                response (str): A response containing company data or relevant information.
+        
             """
             import sys
             import os
@@ -27,7 +29,7 @@ class IOAgent:
             sys.path.append(os.environ["SYS_PATH"])
             from io_agent.database_service import db_service
 
-            return db_service.get_company_info(keyword, sector=sector)
+            return db_service.get_entities_from_graph(prompt)
 
         db_service_tool = self.client.tools.create_from_function(func=call_db_service)
 

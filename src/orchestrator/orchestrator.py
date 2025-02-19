@@ -137,7 +137,7 @@ class Orchestrator:
                 prompt (str): User input
 
             Returns:
-                response (str): IPS agent response
+                response (str): IO Agent response
             """
             import os
             import sys
