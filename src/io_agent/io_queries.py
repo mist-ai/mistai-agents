@@ -31,6 +31,20 @@ class QueryGenerator:
         query += "RETURN DISTINCT c.ticker AS ticker, c.name AS name"
         print(query)
         return query
+    
+    @staticmethod
+    def get_companies_for_sector(sector):
+        """
+        Fetch companies for a given sector.
+        :param sector: str - Sector name
+        :return: str - Cypher query to fetch companies for a sector
+        """
+        return f"""
+        MATCH (c:Company)-[:BELONGS_TO]->(s:Sector)
+        WHERE s.name CONTAINS "{sector}"
+        RETURN DISTINCT c.ticker AS ticker, c.name AS name
+
+        """
 
 # Example usage
 # print(QueryGenerator.get_company_info("John Keells Holdings"))

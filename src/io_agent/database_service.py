@@ -57,6 +57,17 @@ class DatabaseService:
                     
         return entities 
     
+    def get_companies_for_sector(self, sector):
+        """
+        Fetch companies for a given sector.
+        :param sector: str - Sector
+        :return: dict - Companies in the sector
+        """
+        query = QueryGenerator.get_companies_for_sector(sector)
+        result = self.run_query(query)
+        companies = {record['name']: record['ticker'] for record in result}
+        return companies
+    
             
 
 db_service = DatabaseService()

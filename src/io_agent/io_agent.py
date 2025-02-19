@@ -8,7 +8,7 @@ class IOAgent:
         self.client = client
 
     def create(self):
-        def call_db_service(prompt: str) -> str:
+        def get_ticker(prompt: str) -> str:
             """
             Call the database service to generate a response based on user input.
 
@@ -30,8 +30,33 @@ class IOAgent:
             from io_agent.database_service import db_service
 
             return db_service.get_entities_from_graph(prompt)
+        
+        def get_companies_for_sector(prompt: str) -> str:
+            """
+            Call the database service to generate a response based on user input.
 
-        db_service_tool = self.client.tools.create_from_function(func=call_db_service)
+            This function can be used to interact with the database service to:
+            - Fetch the companies listed in under a sector.
+
+            Args:
+                prompt (str): What user is looking for in the database as a user prompt
+
+            Returns:
+                response (str): A response containing company data or relevant information.
+        
+            """
+            import sys
+            import os
+
+            sys.path.append(os.environ["SYS_PATH"])
+            from io_agent.database_service import db_service
+
+            return db_service.get_companies_for_sector(prompt)
+
+        get_ticker_tool = self.client.tools.create_from_function(func=get_ticker)
+        get_companies_for_sector_tool = self.client.tools.create_from_function(
+            func=get_companies_for_sector
+        )
 
         io_agent = self.client.agents.create(
             name=NAME,
@@ -47,7 +72,7 @@ class IOAgent:
             ],
             model="openai/gpt-4o-mini",
             embedding="openai/text-embedding-ada-002",
-            tool_ids=[db_service_tool.id],
+            tool_ids=[get_ticker_tool.id, get_companies_for_sector_tool.id],
         )
 
         logger.info(f"{NAME} agent created with ID: {io_agent.id}")
