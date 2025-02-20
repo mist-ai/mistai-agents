@@ -46,9 +46,9 @@ class NewsAgent:
         rss_fetcher_tool = self.client.tools.create_from_function(
             func=call_rss_fetcher
         )
-        gnews_fetcher_tool = self.client.tools.create_from_function(
-            func=call_gnews_fetcher
-        )
+        # gnews_fetcher_tool = self.client.tools.create_from_function(
+        #     func=call_gnews_fetcher
+        # )
 
         new_agent = self.client.agents.create(
             name=NAME,
@@ -64,7 +64,7 @@ class NewsAgent:
             ],
             model="openai/gpt-4o-mini",
             embedding="openai/text-embedding-ada-002",
-            tool_ids=[gnews_fetcher_tool.id, rss_fetcher_tool.id],
+            tool_ids=[rss_fetcher_tool.id],
         )
 
         logger.info(f"{NAME} agent created with ID: {new_agent.id}")
