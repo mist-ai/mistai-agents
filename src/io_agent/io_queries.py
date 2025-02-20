@@ -22,7 +22,7 @@ class QueryGenerator:
         """
         query = f"""
         MATCH (c:Company)
-        WHERE (c.name CONTAINS "{keyword}" OR c.ticker CONTAINS "{keyword}" OR c.name CONTAINS "{keyword.split()[0]}")
+        WHERE (toLower(c.name) CONTAINS "{keyword.lower()}" OR toLower(c.ticker) CONTAINS "{keyword.lower()}" OR toLower(c.name) CONTAINS "{keyword.lower().split()[0]}")
         """
         
         # if sector:
@@ -41,7 +41,7 @@ class QueryGenerator:
         """
         return f"""
         MATCH (c:Company)-[:BELONGS_TO]->(s:Sector)
-        WHERE s.name CONTAINS "{sector}"
+        WHERE toLower(s.name) CONTAINS "{sector}"
         RETURN DISTINCT c.ticker AS ticker, c.name AS name
 
         """
