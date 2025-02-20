@@ -46,5 +46,31 @@ class QueryGenerator:
 
         """
 
+    @staticmethod
+    def get_docs_for_topic(embedding, topic):
+        return """
+        CALL db.index.vector.queryNodes('test_index_company', 10, $user_query_emb)
+        YIELD node AS vectorNode, score as vectorScore
+        WITH vectorNode, vectorScore
+        MATCH (d:Document)-[r]->(vectorNode)
+        WITH DISTINCT vectorNode as e, d, r, r.cosineSimilarity as cosineSimilarity
+        ORDER BY cosineSimilarity DESC
+        WITH ID(e) as id, e.label as title,
+            cosineSimilarity,
+            e.description as description,
+            head(collect(d.docID)) as document_id,
+            head(collect(d.chunkID)) as chunkID,
+            head(collect(d.full_text)) as document_text,
+            reduce(mDot = 0.0, i IN range(0, size($user_query_emb) - 1) | mDot + $user_query_emb[i] * e.embeddings[i]) /
+            (sqrt(reduce(mSq = 0.0, x IN $user_query_emb | mSq + x^2)) * sqrt(reduce(eSq = 0.0, y IN e.embeddings | eSq + y^2))) AS entity_similarity,
+            reduce(mDot = 0.0, i IN range(0, size($user_query_emb) - 1) | mDot + $user_query_emb[i] * d.embeddings[i]) /
+            (sqrt(reduce(mSq = 0.0, x IN $user_query_emb | mSq + x^2)) * sqrt(reduce(dSq = 0.0, y IN d.embeddings | dSq + y^2))) AS document_similarity
+        WITH id, title, description, document_id, document_text, entity_similarity, document_similarity, chunkID,
+            (entity_similarity + document_similarity) / 2 AS similarity, cosineSimilarity
+        WHERE similarity > 0.7
+        RETURN id, title, document_id, document_text, similarity, chunkID
+        ORDER BY cosineSimilarity DESC, similarity DESC
+        """
+
 # Example usage
 # print(QueryGenerator.get_company_info("John Keells Holdings"))

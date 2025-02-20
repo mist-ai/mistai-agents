@@ -21,7 +21,7 @@ class IOAgent:
 
             Returns:
                 response (str): A response containing company data or relevant information.
-        
+
             """
             import sys
             import os
@@ -30,7 +30,7 @@ class IOAgent:
             from io_agent.database_service import db_service
 
             return db_service.get_entities_from_graph(prompt)
-        
+
         def get_companies_for_sector(prompt: str) -> str:
             """
             Call the database service to generate a response based on user input.
@@ -43,7 +43,7 @@ class IOAgent:
 
             Returns:
                 response (str): A response containing company data or relevant information.
-        
+
             """
             import sys
             import os
@@ -53,9 +53,34 @@ class IOAgent:
 
             return db_service.get_companies_for_sector(prompt)
 
+        def get_related_news_for_topic(prompt: str) -> str:
+            """
+            Call the database service to generate a response based on user input.
+
+            This function can be used to interact with the database service to:
+            - Fetch news related to a give topic
+
+            Args:
+                prompt (str): What user is looking for news related to this topic
+
+            Returns:
+                response (str): A response containing relevent news
+
+            """
+            import sys
+            import os
+
+            sys.path.append(os.environ["SYS_PATH"])
+            from io_agent.database_service import db_service
+
+            return db_service.get_news_for_topic(prompt)
+
         get_ticker_tool = self.client.tools.create_from_function(func=get_ticker)
         get_companies_for_sector_tool = self.client.tools.create_from_function(
             func=get_companies_for_sector
+        )
+        get_news_for_topic_tool = self.client.tools.create_from_function(
+            func=get_related_news_for_topic
         )
 
         io_agent = self.client.agents.create(
@@ -72,7 +97,11 @@ class IOAgent:
             ],
             model="openai/gpt-4o-mini",
             embedding="openai/text-embedding-ada-002",
-            tool_ids=[get_ticker_tool.id, get_companies_for_sector_tool.id],
+            tool_ids=[
+                get_ticker_tool.id,
+                get_companies_for_sector_tool.id,
+                get_news_for_topic_tool.id,
+            ],
         )
 
         logger.info(f"{NAME} agent created with ID: {io_agent.id}")
