@@ -6,7 +6,6 @@ sys.path.append(os.environ["SYS_PATH"])
 from io_agent.keywords_extraction import extractor
 from io_agent.io_queries import QueryGenerator
 from sentence_transformers import SentenceTransformer
-from sentence_transformers import SentenceTransformer
 
 
 class DatabaseService:
