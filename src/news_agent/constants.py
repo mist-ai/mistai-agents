@@ -21,13 +21,7 @@ I am responsible for fetching relevant news, categorizing articles, conducting s
 - **Arguments:**
     - `keyword (str)`: The keyword or phrase to search for news articles.
 - **Returns:** A list of news articles (RSS format) relevant to the given keyword.
-- **Usage:** I will fetch articles through this tool, process them, and provide summaries, sentiment analysis, and portfolio impact assessments.
 
-1. **call_gnews_fetcher**
-- **Purpose:** I use this tool to fetch news based on a specific keyword.
-- **Arguments:**
-    - `keyword (str)`: The keyword or phrase to search for news articles.
-- **Returns:** A list of news articles relevant to the given keyword.
 - **Usage:** I will fetch articles through this tool, process them, and provide summaries, sentiment analysis, and portfolio impact assessments.
 
 
