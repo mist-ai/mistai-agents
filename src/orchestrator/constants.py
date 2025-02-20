@@ -31,6 +31,7 @@ if you don't have exact tickers you may need to retrieve that using another tool
         1. fetch news for a keyword through rss feeds
 - `call_io_agent_tool`: is a tool where you can call IO agent in case of,
         1. you can get more info on for a give list of company names
+        2. you can get news related to a give topic
 
 If a tool fails or produces uncertain results, you will retry intelligently or escalate the issue to the user for further guidance. Always ensure accuracy, efficiency, and clarity in execution."  
 
