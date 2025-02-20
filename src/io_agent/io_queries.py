@@ -22,7 +22,7 @@ class QueryGenerator:
         """
         query = f"""
         MATCH (c:Company)
-        WHERE (toLower(c.name) CONTAINS "{keyword.lower()}" OR toLower(c.ticker) CONTAINS "{keyword.lower()}" OR toLower(c.name) CONTAINS "{keyword.lower().split()[0]}")
+        WHERE (toLower(c.name) CONTAINS "{keyword.lower()}" OR toLower(c.description) contains "{keyword.lower()}" OR toLower(c.ticker) CONTAINS "{keyword.lower()}" OR toLower(c.name) CONTAINS "{keyword.lower().split()[0]}")
         """
         
         # if sector:
