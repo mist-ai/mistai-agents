@@ -45,6 +45,7 @@ class QueryGenerator:
         RETURN DISTINCT c.ticker AS ticker, c.name AS name
 
         """
+    
 
 # Example usage
 # print(QueryGenerator.get_company_info("John Keells Holdings"))

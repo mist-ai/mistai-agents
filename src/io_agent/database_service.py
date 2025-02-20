@@ -4,6 +4,7 @@ from neo4j import GraphDatabase
 sys.path.append(os.environ["SYS_PATH"])
 from io_agent.keywords_extraction import extractor
 from io_agent.io_queries import QueryGenerator
+from sentence_transformers import SentenceTransformer
 
 
 class DatabaseService:
@@ -69,6 +70,18 @@ class DatabaseService:
         companies = {record['name']: record['ticker'] for record in result}
         return companies
     
+    # function to embedd the user prompt and get the response
+    def get_response(self, prompt):
+        """
+        Get the response for the user prompt
+        :param prompt: str - User prompt
+        :return: str - Response
+        """
+        
+        embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+        prompt_embedding = embedding_model.encode(prompt)
+        
+
     
     
             
