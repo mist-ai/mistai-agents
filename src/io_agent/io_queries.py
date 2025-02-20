@@ -41,10 +41,11 @@ class QueryGenerator:
         """
         return f"""
         MATCH (c:Company)-[:BELONGS_TO]->(s:Sector)
-        WHERE toLower(s.name) CONTAINS "{sector}"
+        WHERE toLower(s.name) CONTAINS "{sector.lower()}"
         RETURN DISTINCT c.ticker AS ticker, c.name AS name
 
         """
+    
 
     @staticmethod
     def get_docs_for_topic(embedding, topic):

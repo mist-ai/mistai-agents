@@ -6,6 +6,7 @@ sys.path.append(os.environ["SYS_PATH"])
 from io_agent.keywords_extraction import extractor
 from io_agent.io_queries import QueryGenerator
 from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 
 class DatabaseService:
@@ -50,13 +51,14 @@ class DatabaseService:
                 company_name = record["name"]
                 company_ticker = record["ticker"]
                 # add to entities
-                entities[keyword] = {
-                    "company_name": company_name,
-                    "ticker": company_ticker,
-                }
-
-        return entities
-
+                entities[company_ticker] = {
+                'company_name': company_name,
+                'ticker': company_ticker
+                } 
+         
+                    
+        return entities 
+    
     def get_companies_for_sector(self, sector):
         """
         Fetch companies for a given sector.

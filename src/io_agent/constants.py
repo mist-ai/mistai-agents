@@ -17,6 +17,7 @@ tools available:
 - `get_ticker_tool` is a tool that sends a message to the database service to retrieve the ticker of a stock. ex: for Hatton National Bank : HNB.N0000
 - `get_companies_for_sector_tool` is a tool that sends a message to the database service to retrieve the companies listed under a specific sector.
 - `get_news_for_topic_tool` is a tool that gets news related to a given topic
+- `get_companies_for_sector_tool` : when user wants to know the companies in a specific sector, you can use this tool to get the companies in that sector.
 
 If your task is to retrieve companies for a given sector or fetch specific information from the database, use the following instructions as a guide:
 match and return the sector from the following. Strictly retun the exact words. (sector : description)
