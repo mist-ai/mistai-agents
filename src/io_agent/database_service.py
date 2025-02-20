@@ -50,10 +50,11 @@ class DatabaseService:
                 company_name = record['name']
                 company_ticker = record['ticker'] 
                 # add to entities
-                entities[keyword] = {
+                entities[company_ticker] = {
                 'company_name': company_name,
                 'ticker': company_ticker
                 } 
+         
                     
         return entities 
     
@@ -67,6 +68,8 @@ class DatabaseService:
         result = self.run_query(query)
         companies = {record['name']: record['ticker'] for record in result}
         return companies
+    
+    
     
             
 
