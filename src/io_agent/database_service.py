@@ -6,6 +6,7 @@ sys.path.append(os.environ["SYS_PATH"])
 from io_agent.keywords_extraction import extractor
 from io_agent.io_queries import QueryGenerator
 from sentence_transformers import SentenceTransformer
+from utils import logger
 
 
 class DatabaseService:
@@ -29,6 +30,7 @@ class DatabaseService:
         :param parameters: dict - Optional parameters for the query
         :return: list - Query results
         """
+        logger.info(f"Running query: {query}")
         with self.driver.session() as session:
             result = session.run(query, parameters or {})
             return result.data()
@@ -79,6 +81,7 @@ class DatabaseService:
         query = QueryGenerator.get_docs_for_topic(
             embeddings.encode([topic])[0].tolist(), topic=topic
         )
+        
         return self.run_query(
             query=query,
             parameters=dict(user_query_emb=embeddings.encode([topic])[0].tolist()),

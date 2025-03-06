@@ -11,7 +11,7 @@ from pypfopt import BlackLittermanModel
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
 from analysis_agent.base import BLConfig, json_string
-from analysis_agent.agent_utils import get_prices, get_market_caps
+from analysis_agent.agent_utils import get_prices, get_market_caps, get_company_overview_metricss
 from tradingview_ta import TA_Handler, Interval
 
 
@@ -135,6 +135,10 @@ class PortfolioTools:
             oscillators=handler.get_analysis().oscillators,
             moving_averages=handler.get_analysis().moving_averages,
         )
+    
+    def get_company_overview(self, ticker: str) -> dict:
+        return get_company_overview_metricss(ticker)
+        
 
 
 # p = PortfolioTools()

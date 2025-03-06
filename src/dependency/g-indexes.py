@@ -162,40 +162,6 @@
 
 
 """
-WITH {
-  "credit institution": ["bank"],
-  "financial intermediary": ["bank"],
-  "enterprise": ["bank"],
-  "country": ["Sri Lanka"],
-  "republic": ["Sri Lanka"],
-  "island nation": ["Sri Lanka"],
-  "sovereign state": ["Sri Lanka"]
-} AS description_to_entities
-
-// Unwind the dictionary to get all entity names
-UNWIND keys(description_to_entities) AS description
-UNWIND description_to_entities[description] AS entity_name
-
-// Match nodes with the given names
-MATCH (n)
-WHERE (n:Entity) AND n.label IN description_to_entities[description]
-
-// Collect all matched nodes
-WITH collect(n) AS matchedNodes
-
-// Find the shortest path subgraph between all nodes
-CALL apoc.path.subgraphAll(matchedNodes, {
-  relationshipFilter: "<>",
-  minLevel: 1,
-  maxLevel: 5
-})
-YIELD nodes AS subgraphNodes, relationships AS subgraphRelationships
-
-// Filter to include only Entity and Document nodes
-WITH [node IN subgraphNodes WHERE node:Entity OR node:Document] AS filteredNodes, subgraphRelationships
-
-// Return the filtered nodes and relationships in the subgraph
-UNWIND filteredNodes AS node
-RETURN node
+d
 
 """

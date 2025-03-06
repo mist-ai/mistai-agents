@@ -44,6 +44,6 @@ I can allocate a portfolio using my tool bl_allocation_tool
                 }
 
             Returns:
-                response (str): IPS agent response
+                response (str): Analysis agent response
             
 """
