@@ -10,14 +10,13 @@ from pypfopt import black_litterman, risk_models
 from pypfopt import BlackLittermanModel
 from pypfopt import EfficientFrontier, objective_functions
 from pypfopt import DiscreteAllocation
-from analysis_agent.base import BLConfig, json_string
-from analysis_agent.agent_utils import get_prices, get_market_caps
+from base import BLConfig
+from agent_utils import get_prices, get_market_caps
 from tradingview_ta import TA_Handler, Interval
 
 
 class PortfolioTools:
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def bl_allocation(self, config: str):
         self.bl_config = BLConfig.from_json(config)
@@ -137,6 +136,25 @@ class PortfolioTools:
         )
 
 
-# p = PortfolioTools()
+p = PortfolioTools()
 # print(p.technical_summary())
-# print(p.bl_allocation(json_string))
+for port in range(1):
+    json_string = """
+{
+    "portfolio_value": 1000,
+    "tickers": _PORT_,
+    "viewdict": {
+    },
+    "confidences": [],
+    "intervals": []
+}
+""".replace("_PORT_", str(["CARG.N0000", "CTHR.N0000", "LIOC.N0000"])).replace(
+        "'", '"'
+    )
+
+print(json_string)
+out = p.bl_allocation(json_string)
+
+pre = 1000 - out[-1]
+print(f"pre: {pre}")
+print(out[0])

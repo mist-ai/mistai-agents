@@ -12,12 +12,15 @@ def get_prices(tickers: list, exchange="CSELK"):
         data = tv.get_hist(
             symbol=ticker, exchange=exchange, interval=Interval.in_daily, n_bars=5000
         )
-        print(data)
+        # print(data)
         collection.append(data.pivot(columns="symbol", values="close"))
         time.sleep(7)
-    return pd.concat(collection, axis=1).rename(
+    df = pd.concat(collection, axis=1).rename(
         columns=lambda x: x.replace("CSELK:", "")
     )
+    df = df[df.index < "2025-01-01"].dropna()
+    print(df.tail().dropna())
+    return df
 
 
 def get_market_caps(tickers: list, currency: str = "LKR"):
