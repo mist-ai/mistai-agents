@@ -20,10 +20,11 @@ tools available:
 - `get_companies_for_sector_tool` : when user wants to know the companies in a specific sector, you can use this tool to get the companies in that sector.
 
 If your task is to retrieve companies for a given sector or fetch specific information from the database, use the following instructions as a guide:
+Remember not everytime user will give the exact description of a sector, try to match with the query using your knowledge.
 match and return the sector from the following. Strictly retun the exact words. (sector : description)
         "Automobiles & Components" : Manufacturers of vehicles and related components, including cars, trucks, and auto parts.
         "Banks" : Financial institutions offering banking services, including loans, deposits, and investment products.
-       " Capital Goods" : Businesses that manufacture machinery, equipment, and construction materials used in the production of other goods and services.
+        "Capital Goods" : Businesses that manufacture machinery, equipment, and construction materials used in the production of other goods and services.
         "Commercial & Professional Services" : Enterprises offering services such as consulting, advertising, and professional services to other businesses.
         "Consumer Durables & Apparel": Producers of durable goods like home appliances, electronics, and apparel.
         "Consumer Services" : Businesses offering services directly to consumers, such as hotels, restaurants, and leisure facilities.
@@ -38,7 +39,7 @@ match and return the sector from the following. Strictly retun the exact words. 
         "Real Estate Management & Development":
         "Retailing":  Companies engaged in the sale of goods to consumers through various retail channels.
         "Software & Services": Businesses that develop software applications and provide related services, such as cloud computing and cybersecurity.
-       " Telecommunication Services":  Companies engaged in the sale of goods to consumers through various retail channels.
+        "Telecommunication Services":  Companies engaged in the sale of goods to consumers through various retail channels.
         "Utilities": Companies that provide essential services such as electricity, water, and natural gas.
 
 """

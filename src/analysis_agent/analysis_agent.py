@@ -82,7 +82,7 @@ class AnalysisAgent:
                 PortfolioTools().technical_summary(ticker=ticker), indent=4
             )
 
-        def company_overview(ticker: str) -> str:
+        def fundamental_analysis(ticker: str) -> str:
             """
                 this function fetches the company overview metrics of a particular stock using its ticker
 
@@ -104,7 +104,7 @@ class AnalysisAgent:
             from analysis_agent.portfolio import PortfolioTools
 
             return json.dumps(
-                PortfolioTools().get_company_overview(ticker=ticker), indent=4
+                PortfolioTools().get_fundamental_analysis(ticker=ticker), indent=4
             )
         
         bl_allocation_tool = self.client.tools.create_from_function(
@@ -115,8 +115,8 @@ class AnalysisAgent:
             func=technical_summary_of_stock
         )
 
-        company_overview_tool = self.client.tools.create_from_function(
-            func=company_overview
+        fundamental_analysis_tool = self.client.tools.create_from_function(
+            func=fundamental_analysis
         )
 
         new_agent = self.client.agents.create(
@@ -133,7 +133,7 @@ class AnalysisAgent:
             ],
             model="openai/gpt-4o-mini",
             embedding="openai/text-embedding-ada-002",
-            tool_ids=[bl_allocation_tool.id, technical_summary_tool.id, company_overview_tool.id],
+            tool_ids=[bl_allocation_tool.id, technical_summary_tool.id, fundamental_analysis_tool.id],
         )
 
         logger.info(f"{NAME} agent created with ID: {new_agent.id}")
