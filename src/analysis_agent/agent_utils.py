@@ -121,3 +121,11 @@ def get_company_overview_metrics(ticker):
     finally:
         # Close the browser after extraction
         driver.quit()
+
+
+
+
+
+
+# data = get_company_overview_metrics("HNB.N0000")
+# print(data)

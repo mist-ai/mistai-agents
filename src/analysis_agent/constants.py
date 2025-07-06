@@ -58,7 +58,7 @@ My Tools
                 # JSON INPUT EXAMPLE
                 ## ticker is the stock we try to analyse
                 {
-                    "ticker": "MSFT.NOO0O"
+                    "ticker": "MSFT.N0000"
                 }
 
             Returns:
