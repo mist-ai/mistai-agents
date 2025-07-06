@@ -61,6 +61,7 @@ class WidgetAgent:
                 CreateBlock(
                     value=PERSONA_PROMPT,
                     label="persona",
+                    limit=20000
                 ),
             ],
             model="openai/gpt-4o-mini",

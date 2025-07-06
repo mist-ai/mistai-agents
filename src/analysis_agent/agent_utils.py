@@ -77,8 +77,8 @@ def get_exchange_rate(currency: str = "LKR"):
 
 
 
-def get_company_overview_metricss(ticker):
-    """Fetch financial overview data from TradingView for a given ticker."""
+def get_company_overview_metrics(ticker):
+    """Fetch financial overview data from TradingView for a given ticker and return as a dictionary."""
     
     # Initialize Chrome options for headless mode
     chrome_options = Options()
@@ -94,12 +94,12 @@ def get_company_overview_metricss(ticker):
         # Open the TradingView financials page
         url = f"https://www.tradingview.com/symbols/CSELK-{ticker}/financials-overview/"
         driver.get(url)
-
+        time.sleep(5)
         # Find all div elements with class 'item-D38HaCsG'
         div_elements = driver.find_elements(By.CLASS_NAME, 'item-D38HaCsG')
 
-        # Extract financial data
-        financial_data = []
+        # Extract financial data into a dictionary
+        financial_data = {}
         for div in div_elements:
             try:
                 # Find the title span
@@ -110,8 +110,8 @@ def get_company_overview_metricss(ticker):
                 data_span = div.find_element(By.CLASS_NAME, 'data-D38HaCsG')
                 data_text = data_span.text.replace('\u202a', '').replace('\u202c', '').replace('\u202f', '').strip()
 
-                # Append data to the list
-                financial_data.append({'title': title_text, 'data': data_text})
+                # Store data in dictionary
+                financial_data[title_text] = data_text
 
             except Exception as e:
                 print(f"Error extracting data from div: {e}")
@@ -121,6 +121,3 @@ def get_company_overview_metricss(ticker):
     finally:
         # Close the browser after extraction
         driver.quit()
-
-
-

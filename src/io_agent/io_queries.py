@@ -72,6 +72,26 @@ class QueryGenerator:
         RETURN id, title, document_id, document_text, similarity, chunkID
         ORDER BY cosineSimilarity DESC, similarity DESC
         """
+    
+    @staticmethod
+    def get_documents_for_company(user_input, ticker=False):
+        """
+        Fetch documents for a given company using either name or ticker.
+        :param user_input: str - Company name or ticker.
+        :param ticker: bool - If True, search by ticker; else, search by name.
+        :return: str - Cypher query.
+        """
+        if ticker:
+            where_clause = f'toLower(c.ticker) CONTAINS toLower("{user_input}")'
+        else:
+            where_clause = f'toLower(c.name) CONTAINS toLower("{user_input}")'
+        return f"""
+        MATCH (d:Document)-[:RELATES_TO]->(c:Company)
+        WHERE {where_clause}
+        RETURN d.full_text
+        """
+       
 
 # Example usage
-# print(QueryGenerator.get_company_info("John Keells Holdings"))
+print(QueryGenerator.get_documents_for_company("hatton national", ticker=False))
+

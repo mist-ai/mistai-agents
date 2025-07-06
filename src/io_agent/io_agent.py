@@ -74,6 +74,27 @@ class IOAgent:
             from io_agent.database_service import db_service
 
             return db_service.get_news_for_topic(prompt)
+        
+        def get_news_for_company(company_input: str, ticker: bool = False) -> str:
+            """
+            Fetches documents for a given company from the database service,
+            using either the company name or ticker (case-insensitive, partial match).
+
+            Args:
+                company_input (str): Company name or ticker to search for.
+                ticker (bool): If True, search by ticker; else, by name.
+
+            Returns:
+                str: Documents related to the company.
+            """
+            import sys
+            import os
+
+            sys.path.append(os.environ["SYS_PATH"])
+            from io_agent.database_service import db_service
+
+            # Call the respective service function, you may need to implement this in db_service
+            return db_service.get_news_for_company(company_input, ticker)
 
         get_ticker_tool = self.client.tools.create_from_function(func=get_ticker)
         get_companies_for_sector_tool = self.client.tools.create_from_function(
@@ -82,6 +103,10 @@ class IOAgent:
         get_news_for_topic_tool = self.client.tools.create_from_function(
             func=get_related_news_for_topic
         )
+        get_news_for_company_tool = self.client.tools.create_from_function(
+            func=get_news_for_company
+        )
+
 
         io_agent = self.client.agents.create(
             name=NAME,
@@ -101,6 +126,7 @@ class IOAgent:
                 get_ticker_tool.id,
                 get_companies_for_sector_tool.id,
                 get_news_for_topic_tool.id,
+                get_news_for_company_tool.id,
             ],
         )
 
