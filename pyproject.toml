@@ -41,3 +41,6 @@ version = "0.1.0"
 
 [tool.uv.sources]
 tvdatafeed = { git = "https://github.com/rongardF/tvdatafeed.git" }
+
+GRANT ALL PRIVILEGES ON aquarium.* TO 'aquarium'@'%';
+FLUSH PRIVILEGES;
