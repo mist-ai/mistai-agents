@@ -86,6 +86,16 @@ class DatabaseService:
             query=query,
             parameters=dict(user_query_emb=embeddings.encode([topic])[0].tolist()),
         )
+    
+    def get_documents_for_company(self, company_input: str, ticker: bool = False):
+        """
+        Fetch documents for a given company, searching by name or ticker.
+        :param company_input: str - The company name or ticker to search for.
+        :param ticker: bool - If True, search by ticker; else, by name.
+        :return: list - Query results.
+        """
+        query = QueryGenerator.get_documents_for_company(company_input, ticker)
+        return self.run_query(query)
 
 
 db_service = DatabaseService()

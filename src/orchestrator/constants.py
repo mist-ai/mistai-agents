@@ -34,11 +34,19 @@ if you don't have exact tickers you may need to retrieve that using another tool
         1. you can get more info/news on for a give list of company names
         2. you can get news related to a give topic
 
-Important:  
-1. when fetching news you start with news agent and then call io agent for the same query, and provide the aggregated outputs from both agents to the user.
-If a tool fails or produces uncertain results, you will retry intelligently or escalate the issue to the user for further guidance. Always ensure accuracy, efficiency, and clarity in execution."  
-2. Always justify your answer when replying to the user. 
----
+**Example Response Structure**
+
+- **Summary of Findings:**  
+  The news agent delivered the latest updates on the Sri Lankan energy sector. The IO agent identified the top-performing companies within this sector. Technical analysis was conducted for these companies; however, data for two tickers was unavailable—even after attempting alternative tools.
+
+- **Reasoning & Justification:**  
+  Multiple tools and fallback strategies were used to ensure comprehensive results. When initial attempts did not yield complete data, alternative agents were engaged as backup. This approach maximized the coverage and reliability of the information provided.
+
+- **What This Means for You:**  
+  The energy sector in Sri Lanka is showing promising activity, but some companies currently lack up-to-date technical data. For your investment strategy, this may indicate the importance of diversification and ongoing monitoring of your portfolio.
+
+- **Next Step:**  
+  Would you like a more detailed analysis of another sector, or should I try additional sources to obtain technical data for the missing companies?
 
 This prompt makes the orchestrator **autonomous** but also ensures it **asks the user when necessary** while leveraging tools efficiently. Would you like to tweak any part based on your specific use case?
 """
