@@ -14,7 +14,13 @@ nlp = spacy.load("en_core_web_md")
 # add pipeline (declared through entry_points in setup.py)
 nlp.add_pipe("entityLinker", last=True)
 
-driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), max_connection_lifetime=3600*24*30, keep_alive=True, max_connection_pool_size=100)
+driver = GraphDatabase.driver(
+    NEO4J_URI,
+    auth=(NEO4J_USERNAME, NEO4J_PASSWORD),
+    max_connection_lifetime=3600 * 24 * 30,
+    keep_alive=True,
+    max_connection_pool_size=100,
+)
 
 embeddings = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -28,7 +34,7 @@ def create_spacy_node_and_relationship(tx, doc_id, chunk_id, description):
     for ent in all_linked_entities:
         if ent.description is None:
             continue
-        
+
         print(chunk_id)
         # Create spacyNode and relationship in the database
         spacy_node_query = (
@@ -57,14 +63,14 @@ def process_documents(driver):
     results = []
     with driver.session() as session:
         # Query to get all document nodes
-        query = "MATCH (d:Document) RETURN d.chunkID AS chunk_id, d.docID AS doc_id, d.full_text AS description"
+        query = "MATCH (d:Document) WHERE NOT (d)--(:Entity) RETURN d.chunkID AS chunk_id, d.docID AS doc_id, d.full_text AS description"
 
         # Iterate through each document node
         result = session.run(query)  # Run the query
 
         # Fetch all records before consuming them
         results = [record for record in result]
-        
+
     for record in results:
         doc_id = record["doc_id"]
         chunk_id = record["chunk_id"]
@@ -75,7 +81,6 @@ def process_documents(driver):
             session1.execute_write(
                 create_spacy_node_and_relationship, doc_id, chunk_id, description
             )
-            
 
 
 # Run the process

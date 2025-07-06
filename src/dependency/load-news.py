@@ -4,7 +4,9 @@ from sentence_transformers import (
     SentenceTransformer,
 )  # Replace with actual embedding library
 
-data_source_path = "/Users/admin/Documents/Personal/fyp/mistai-agents/src/dependency/golden-copy-scraped-articles.xlsx"
+data_source_path = (
+    "/Users/admin/Documents/Personal/fyp/mistai-agents/scraped_articles.csv"
+)
 
 NEO4J_URI = "bolt://localhost:7687"
 NEO4J_USERNAME = "neo4j"
@@ -19,7 +21,7 @@ driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD))
 embeddings = SentenceTransformer("all-MiniLM-L6-v2")
 
 
-df = pd.read_excel(data_source_path, engine="openpyxl")
+df = pd.read_csv(data_source_path)
 df = df.dropna(subset=["Content"])  # Specify engine="openpyxl" for .xlsx files
 
 
